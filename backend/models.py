@@ -1,8 +1,15 @@
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+
+shopping_list_product = Table('ShoppingListProduct', db.Model.metadata,
+                              Column('shopping_list_id', Integer, ForeignKey(
+                                  'ShoppingList.id'), primary_key=True),
+                              Column('product_id', Integer, ForeignKey(
+                                  'Product.id'), primary_key=True)
+                              )
 
 
 class Category(db.Model):
@@ -47,4 +54,17 @@ class Location(db.Model):
             'x': self.x,
             'y': self.y,
             'location_id': self.location_id
+        }
+
+
+class ShoppingList(db.Model):
+    __tablename__ = 'ShoppingList'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    products = relationship(
+        'Product', secondary=shopping_list_product, backref='shopping_lists')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'products': [product.to_dict() for product in self.products]
         }
