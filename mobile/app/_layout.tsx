@@ -34,6 +34,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
+        <Stack.Screen name="products" />
         <Stack.Screen name="index" />
         <Stack.Screen name="test" />
         <Stack.Screen name="+not-found" />
