@@ -40,7 +40,7 @@ export default function ProductsScreen() {
   if (error)
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
-        <Stack.Screen options={{ title: "Продукти" }} />
+        <Stack.Screen options={{ title: "Количка" }} />
 
         <Text className="text-3xl my-auto text-center">
           Error: {error.message}

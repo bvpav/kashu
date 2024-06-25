@@ -12,7 +12,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="products"
+        name="shopping-cart"
         options={{
           tabBarIcon: () => (
             <MaterialIcons name="local-grocery-store" size={24} color="white" />
