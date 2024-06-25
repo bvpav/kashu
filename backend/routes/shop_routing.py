@@ -102,8 +102,6 @@ def collect_items(start, items, grid):
         path_segment = a_star(current_position, item,
                               grid, just_collected=bool(path))
 
-        print("Path segment:" + str(path_segment))
-
         if path_segment:
             # Exclude the last position to avoid repetition
             path.extend(path_segment[:-1])
@@ -138,13 +136,14 @@ def get_path(start, end, items, arr):
         if full_path[i] != full_path[i - 1]:
             cleaned_path.append(full_path[i])
 
-    # Print the path
-    print("Path:")
-    for step in cleaned_path:
-        print(step)
+    # # Print the path
+    # print("Path:")
+    # for step in cleaned_path:
+    #     print(step)
 
     return cleaned_path
 
 
-print(get_path(start, end, items, arr))
-print_grid(arr)
+if __name__ == "__main__":
+    print(get_path(start, end, items, arr))
+    print_grid(arr)
