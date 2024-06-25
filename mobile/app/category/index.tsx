@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  Dimensions,
   Pressable,
 } from "react-native";
 
@@ -17,7 +18,7 @@ interface Category {
 
 export default function ProductsScreen() {
   const [categories, setCategories] = useState<Category[]>([]);
-
+  const screenWidth = Dimensions.get("window").width;
   useEffect(() => {
     setCategories(categoriesData.categories);
     console.log(categoriesData.categories);
@@ -34,20 +35,15 @@ export default function ProductsScreen() {
         }}
       >
         {categories.map((item) => (
-          <Link
-            href={"category/" + item.id}
-            asChild
-            key={item.id}
-            className="w-[40%]"
-          >
+          <Link href={"category/" + item.id} asChild key={item.id}>
             <Pressable style={styles.categoryContainer} className="w-full">
               <Image
                 source={require(`../../assets/category/4.jpg`)}
                 style={{
-                  height: 140,
-                  width: 140,
+                  height: screenWidth * 0.35,
+                  width: screenWidth * 0.35,
+                  borderRadius: 8,
                 }}
-                className="rounded-xl"
               />
               <Text className="text-xl">{item.name}</Text>
             </Pressable>
@@ -63,6 +59,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 5,
     borderWidth: 1,
+    maxWidth: "40%",
+    textAlign: "center",
     borderColor: "grey",
     // iOS Shadow
     shadowColor: "#000",
