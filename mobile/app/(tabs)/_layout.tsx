@@ -1,24 +1,29 @@
 import { Tabs } from "expo-router";
-import {
-  IconCategoryFilled,
-  IconHomeFilled,
-  IconMapPinFilled,
-} from "@tabler/icons-react-native";
-
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Feather from "@expo/vector-icons/Feather";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 export default function TabsLayout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
       <Tabs.Screen
         name="index"
-        options={{ tabBarIcon: () => <IconHomeFilled /> }}
+        options={{
+          tabBarIcon: () => <AntDesign name="home" size={24} color="white" />,
+        }}
       />
       <Tabs.Screen
         name="products"
-        options={{ tabBarIcon: () => <IconCategoryFilled /> }}
+        options={{
+          tabBarIcon: () => (
+            <MaterialIcons name="local-grocery-store" size={24} color="white" />
+          ),
+        }}
       />
       <Tabs.Screen
         name="map"
-        options={{ tabBarIcon: () => <IconMapPinFilled /> }}
+        options={{
+          tabBarIcon: () => <Feather name="map" size={24} color="white" />,
+        }}
       />
     </Tabs>
   );

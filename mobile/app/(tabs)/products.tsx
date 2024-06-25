@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import {
@@ -26,19 +26,22 @@ export default function ProductsScreen() {
     queryKey: ["categories"],
     queryFn: () =>
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/categories`).then(
-        (res) => res.json() as Promise<Category[]>
+        (res) => res.json() as Promise<Category[]>,
       ),
   });
 
   if (isPending)
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
+        <Stack.Screen options={{ title: "Продукти" }} />
         <Text className="text-3xl my-auto text-center">Loading...</Text>
       </View>
     );
   if (error)
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
+        <Stack.Screen options={{ title: "Продукти" }} />
+
         <Text className="text-3xl my-auto text-center">
           Error: {error.message}
         </Text>
@@ -72,6 +75,8 @@ export default function ProductsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
+      <Stack.Screen options={{ title: "Продукти" }} />
+
       <Text className="text-center text-3xl m-5">Категории на продукти</Text>
       <ScrollView
         contentContainerStyle={{

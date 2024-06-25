@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function TestScreen() {
   return (
     <>
-      <Stack.Screen options={{ title: "Products" }} />
+      <Stack.Screen options={{ title: "Карта" }} />
       <View style={styles.container} className="bg-slate-400">
         <Text className="text-black">Insert Map Here...</Text>
       </View>

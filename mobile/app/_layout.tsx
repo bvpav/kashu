@@ -38,20 +38,10 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <QueryClientProvider client={queryClient}>
-        {/* <Stack>
-          <Stack.Screen
-            name="category/index"
-            options={{
-              title: "Категории Продукти",
-            }}
-          />
-          <Stack.Screen name="index" />
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
-        </Stack> */}
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+        </Stack>
       </QueryClientProvider>
     </ThemeProvider>
   );
