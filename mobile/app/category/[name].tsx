@@ -12,6 +12,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { CartContext, CartContextType } from "@/contexts/cart-context";
 import { router } from "expo-router";
+import { getColorBasedOnIndex } from "@/constants/Colors";
 
 interface Product {
   id: number;
@@ -86,27 +87,35 @@ const CategoryDetails = () => {
           width: "100%",
         }}
       >
-        {filteredProducts?.map((item: any) => (
-          <Pressable
-            key={item.product_id}
-            style={styles.categoryContainer}
-            className="w-[40%]"
-            onPress={() => {
-              addToCart(item);
-              router.replace("(tabs)/shopping-cart");
-            }}
-          >
-            <Image
-              source={require(`@/assets/category/4.jpg`)}
+        {filteredProducts?.map((item: any, index: number) => {
+          const { color, borderColor } = getColorBasedOnIndex(index);
+
+          return (
+            <Pressable
+              key={item.product_id}
               style={{
-                height: screenWidth * 0.35,
-                width: screenWidth * 0.35,
-                borderRadius: 8,
+                ...styles.categoryContainer,
+                borderColor: borderColor,
+                backgroundColor: color,
               }}
-            />
-            <Text className="text-xl text-center">{item.name}</Text>
-          </Pressable>
-        ))}
+              className="w-[40%]"
+              onPress={() => {
+                addToCart(item);
+                router.replace("(tabs)/shopping-cart");
+              }}
+            >
+              <Image
+                source={require(`@/assets/category/4.jpg`)}
+                style={{
+                  height: screenWidth * 0.35,
+                  width: screenWidth * 0.35,
+                  borderRadius: 8,
+                }}
+              />
+              <Text className="text-xl text-center">{item.name}</Text>
+            </Pressable>
+          );
+        })}
       </ScrollView>
     </View>
   );

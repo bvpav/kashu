@@ -10,10 +10,12 @@ import {
   Dimensions,
   Pressable,
 } from "react-native";
+import { getColorBasedOnIndex } from "@/constants/Colors";
 
 interface Category {
   id: number;
   name: string;
+  description?: string;
 }
 
 export default function ProductsScreen() {
@@ -40,7 +42,7 @@ export default function ProductsScreen() {
   if (error)
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
-        <Stack.Screen options={{ title: "Количка" }} />
+        <Stack.Screen options={{ title: "Продукти" }} />
 
         <Text className="text-3xl my-auto text-center">
           Error: {error.message}
@@ -86,30 +88,38 @@ export default function ProductsScreen() {
           width: "90%",
         }}
       >
-        {categories.map((item) => (
-          <Link href={"category/" + item.name} asChild key={item.id}>
-            <Pressable style={styles.categoryContainer} className="w-full">
-              <View
+        {categories.map((item, index) => {
+          const { color, borderColor } = getColorBasedOnIndex(index);
+          return (
+            <Link href={"category/" + item.name} asChild key={item.id}>
+              <Pressable
                 style={{
-                  width: 0.54 * screenWidth,
+                  ...styles.categoryContainer,
+                  borderColor: borderColor,
+                  backgroundColor: color,
                 }}
+                className="w-full"
               >
-                <Text className="text-3xl font-medium">{item.name}</Text>
-                <Text className="text-xl">
-                  This is an example descri ptiosdn asdj aowijdeawoij whe
-                </Text>
-              </View>
-              <Image
-                source={require(`../../assets/category/4.jpg`)}
-                style={{
-                  height: screenWidth * 0.3,
-                  width: screenWidth * 0.3,
-                  borderRadius: 8,
-                }}
-              />
-            </Pressable>
-          </Link>
-        ))}
+                <View
+                  style={{
+                    width: 0.54 * screenWidth,
+                  }}
+                >
+                  <Text className="text-3xl font-medium">{item.name}</Text>
+                  <Text className="text-xl">{item.description}</Text>
+                </View>
+                <Image
+                  source={require(`../../assets/category/4.jpg`)}
+                  style={{
+                    height: screenWidth * 0.3,
+                    width: screenWidth * 0.3,
+                    borderRadius: 8,
+                  }}
+                />
+              </Pressable>
+            </Link>
+          );
+        })}
       </ScrollView>
     </View>
   );

@@ -24,3 +24,29 @@ export const Colors = {
     tabIconSelected: tintColorDark,
   },
 };
+
+export function getColorBasedOnIndex(index: number) {
+  let color, borderColor;
+  switch (index % 4) {
+    case 0:
+      color = "#F8BA8B";
+      borderColor = "#FC6D00";
+      break;
+    case 1:
+      color = "#C7D8A4";
+      borderColor = "#669800";
+      break;
+    case 2:
+      color = "#F5E0BA";
+      borderColor = "#E89500";
+      break;
+    case 3:
+      color = "#F1AEAF";
+      borderColor = "#F9090D";
+      break;
+    default:
+      color = "white";
+      borderColor = "black";
+  }
+  return { color, borderColor };
+}
