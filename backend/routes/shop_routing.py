@@ -62,11 +62,9 @@ def a_star(start, goal, grid, just_collected=False):
     came_from = {}
     g_score = {start: 0}
     f_score = {start: heuristic(start, goal)}
-    print(f_score)
     first_move_after_collect = just_collected
     while open_set:
         _, current = heapq.heappop(open_set)
-        print("Current: " + str(current))
         if current == goal:
             path = []
             while current in came_from:
