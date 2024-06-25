@@ -1,40 +1,44 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import "react-native-reanimated";
-import { Text, View } from "react-native";
+import React, { useRef, useEffect } from 'react';
 
-import { useColorScheme } from "@/hooks/useColorScheme";
+import UnityView from '@azesmway/react-native-unity/src/UnityView';
+import { View } from 'react-native';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+interface IMessage {
+  gameObject: string;
+  methodName: string;
+  message: string;
+}
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-  });
+const Unity = () => {
+  const unityRef = useRef<UnityView>(null);
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    if (unityRef?.current) {
+      const message: IMessage = {
+        gameObject: 'gameObject',
+        methodName: 'methodName',
+        message: 'message',
+      };
+      unityRef.current.postMessage(
+        message.gameObject,
+        message.methodName,
+        message.message
+      );
     }
-  }, [loaded]);
+  }, []);
 
-  if (!loaded) {
-    return null;
-  }
+  console.log('Unity')
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <View>
-        <Text>Root Layout</Text>
-      </View>
-    </ThemeProvider>
+    <View style={{ flex: 1 }}>
+      <UnityView
+        ref={unityRef}
+        onUnityMessage={(result) => {
+          console.log('onUnityMessage', result.nativeEvent.message);
+        }}
+      />
+    </View>
   );
-}
+};
+
+export default Unity;
