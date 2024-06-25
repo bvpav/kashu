@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
+import { CartContext } from "@/contexts/cart-context";
+import { router } from "expo-router";
 
 interface Product {
   id: number;
@@ -19,6 +21,8 @@ interface Product {
 }
 
 const CategoryDetails = () => {
+  const cartContext = useContext(CartContext);
+
   const categoryName = useLocalSearchParams().name;
   const screenWidth = Dimensions.get("window").width;
   const {
@@ -29,11 +33,11 @@ const CategoryDetails = () => {
     queryKey: ["products-", categoryName],
     queryFn: () =>
       fetch(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/products?category=${categoryName}`
+        `${process.env.EXPO_PUBLIC_API_URL}/api/products?category=${categoryName}`,
       ).then((res) => res.json()) as Promise<Product[]>,
   });
 
-  if (isPending)
+  if (isPending || !cartContext)
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <Stack.Screen
@@ -44,6 +48,15 @@ const CategoryDetails = () => {
         <Text className="text-3xl my-auto text-center">Loading...</Text>
       </View>
     );
+
+  const { addToCart, cart } = cartContext;
+
+  const filteredProducts = products?.filter((product) => {
+    return !cart.some(
+      (cartProduct) => cartProduct.product_id === product.product_id,
+    );
+  });
+
   if (error)
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -73,11 +86,15 @@ const CategoryDetails = () => {
           width: "100%",
         }}
       >
-        {products.map((item: any) => (
+        {filteredProducts?.map((item: any) => (
           <Pressable
             key={item.product_id}
             style={styles.categoryContainer}
             className="w-[40%]"
+            onPress={() => {
+              addToCart(item);
+              router.replace("(tabs)/shopping-cart");
+            }}
           >
             <Image
               source={require(`@/assets/category/4.jpg`)}

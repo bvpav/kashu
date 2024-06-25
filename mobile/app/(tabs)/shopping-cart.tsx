@@ -1,5 +1,5 @@
 import { Link, Stack } from "expo-router";
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
-
+import { CartContext } from "@/contexts/cart-context";
 interface Product {
   id: number;
   name: string;
@@ -19,20 +19,20 @@ interface Product {
 }
 
 export default function ProductsScreen() {
+  const cartContext = useContext(CartContext);
+
+  if (!cartContext) {
+    return <Text>Loading...</Text>;
+  }
+
+  const { cart } = cartContext;
+
   const screenWidth = Dimensions.get("window").width;
-  const selectedProducts = [
-    {
-      id: 1,
-      product_id: "PS1",
-      name: "Banan",
-      category_id: 1,
-    },
-  ];
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <Stack.Screen options={{ title: "Количка" }} />
-      {selectedProducts.length === 0 && (
+      {cart.length === 0 && (
         <Text className="text-center text-black text-2xl font-medium mx-auto mt-6">
           Няма нищо в количката
         </Text>
@@ -40,16 +40,16 @@ export default function ProductsScreen() {
 
       <AddButton />
 
-      {selectedProducts.length < 4 ? (
+      {cart.length < 4 ? (
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "space-between",
             marginHorizontal: 0.05 * screenWidth,
             marginTop: 10,
           }}
         >
-          {selectedProducts.map((item) => (
+          {cart.map((item) => (
             <RenderProduct
               item={item}
               key={`shopping-cart-${item.product_id}`}
@@ -67,7 +67,7 @@ export default function ProductsScreen() {
             height: screenWidth * 2,
           }}
         >
-          {selectedProducts.map((item) => (
+          {cart.map((item) => (
             <RenderProduct
               item={item}
               key={`shopping-cart-${item.product_id}`}

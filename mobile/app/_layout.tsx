@@ -15,7 +15,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { useColorScheme } from "@/hooks/useColorScheme";
-
+import { CartProvider } from "@/contexts/cart-context";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 void SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
@@ -37,12 +37,14 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <QueryClientProvider client={queryClient}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </QueryClientProvider>
+      <CartProvider>
+        <QueryClientProvider client={queryClient}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </QueryClientProvider>
+      </CartProvider>
     </ThemeProvider>
   );
 }
