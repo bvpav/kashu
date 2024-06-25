@@ -17,11 +17,14 @@ class Category(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), nullable=False, unique=True)
     products = relationship('Product', backref='category')
+    description = Column(String(255), nullable=True)
 
     def to_dict(self):
         return {
             'id': self.id,
-            'name': self.name
+            'name': self.name,
+            'products': [product.to_dict() for product in self.products],
+            'description': self.description
         }
 
 

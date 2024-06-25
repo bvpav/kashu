@@ -5,7 +5,7 @@ from .routes.products import products_bp
 from .routes.categories import categories_bp
 from .routes.shopping_list import shopping_list_bp
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='assets')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:QYdebFzgdyiyRAhHCchrbTYHrNplVxlp@viaduct.proxy.rlwy.net:36970/railway'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
