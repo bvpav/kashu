@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify
-from backend.models import db, ShoppingList, Product
+from backend.models import db, ShoppingList, Product, Location
 from backend.routes.shop_routing import get_path
-from backend.map_generation import generate_map
+from backend.map_generation import generate_map, get_exit, get_start
+from sqlalchemy import join
+
 
 shopping_list_bp = Blueprint('shopping_list', __name__)
 
@@ -55,14 +57,34 @@ def delete_shopping_list(list_id):
 def get_shopping_list_route(list_id):
     shopping_list = ShoppingList.query.get(list_id)
     if shopping_list:
-        start = (0, 0)
-        print(map)
-        end = (20, 40)
-        # items = [(product.x, product.y) for product in shopping_list.products]
-        items = [(2, 3), (4, 4), (4, 7)]
-        arr = [[0 for _ in range(10)] for _ in range(10)]
+        product_ids = [
+            product.product_id for product in shopping_list.products]
+
+        j = join(Product, Location, Product.product_id == Location.location_id)
+
+        query = db.session.query(Product, Location).select_from(
+            j).filter(Product.product_id.in_(product_ids))
+
+        items = [(location.y, location.x) for product, location in query.all()]
+
+        map = generate_map()
+
+        start = get_start()
+        end = get_exit()
+
+        map[end[0]][end[1]] = '.'
+        map[start[0]][start[1]] = '.'
+
+        for i in range(21):
+            for j in range(41):
+                if (i, j) not in items and map[i][j] != '.':
+                    map[i][j] = 'X'
+
+        # make all the items as 1
         for item in items:
-            arr[item[0]][item[1]] = 1
+            map[item[0]][item[1]] = 1
+
+        arr = map
         path = [{'y': path[0], 'x': path[1]}
                 for path in get_path(start, end, items, arr)]
         return jsonify(path)

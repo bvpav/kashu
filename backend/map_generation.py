@@ -28,6 +28,20 @@ def generate_map():
     return map
 
 
+def get_start():
+    locations = Location.query.all()
+    for location in locations:
+        if location.location_id == 'EN':
+            return (location.y, location.x)
+
+
+def get_exit():
+    locations = Location.query.all()
+    for location in locations:
+        if location.location_id == 'EX':
+            return (location.y, location.x)
+
+
 if __name__ == '__main__':
     generate_map()
 
