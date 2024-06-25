@@ -8,10 +8,12 @@ import {
   ScrollView,
   Dimensions,
   Pressable,
+  ImageBackground,
   TouchableOpacity,
 } from "react-native";
 import { getColorBasedOnIndex } from "@/constants/Colors";
 import { CartContext, CartContextType } from "@/contexts/cart-context";
+import { BlurView } from "expo-blur";
 interface Product {
   id: number;
   name: string;
@@ -21,66 +23,95 @@ interface Product {
 
 export default function ProductsScreen() {
   const cartContext = useContext(CartContext) as CartContextType;
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
 
   if (!cartContext) {
-    return <Text>Loading...</Text>;
+    return (
+      <ImageBackground
+        source={require("@/assets/images/background.jpg")}
+        resizeMode="cover"
+        style={{
+          position: "absolute",
+          zIndex: -1,
+          width: screenWidth,
+          height: screenHeight,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text>Loading...</Text>
+      </ImageBackground>
+    );
   }
 
   const { cart } = cartContext;
 
-  const screenWidth = Dimensions.get("window").width;
-
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <Stack.Screen options={{ title: "Количка" }} />
-      {cart.length === 0 && (
-        <Text className="text-center text-black text-2xl font-medium mx-auto mt-6">
-          Няма нищо в количката
-        </Text>
-      )}
+    <>
+      <ImageBackground
+        source={require("@/assets/images/background.jpg")}
+        resizeMode="cover"
+        style={{
+          position: "absolute",
+          zIndex: -1,
+          width: screenWidth,
+          height: screenHeight,
+        }}
+      >
+        <Stack.Screen options={{ title: "Количка" }} />
+        {cart.length === 0 && (
+          <Text className="text-center text-black text-2xl font-medium mx-auto mt-6">
+            Няма нищо в количката
+          </Text>
+        )}
 
+        {cart.length < 4 ? (
+          <View
+            style={{
+              flexDirection: "column",
+              justifyContent: "space-between",
+              marginHorizontal: 0.05 * screenWidth,
+              marginTop: screenHeight * 0.12,
+            }}
+          >
+            {cart.map((item, index) => (
+              <RenderProduct
+                index={index}
+                item={item}
+                key={`shopping-cart-${item.product_id}`}
+                screenWidth={screenWidth}
+              />
+            ))}
+          </View>
+        ) : (
+          <View
+            style={{
+              maxHeight: 0.76 * screenHeight,
+              marginTop: screenHeight * 0.12,
+            }}
+          >
+            <ScrollView
+              contentContainerStyle={{
+                marginHorizontal: "auto",
+                width: "90%",
+              }}
+            >
+              {cart.map((item, index) => (
+                <RenderProduct
+                  index={index}
+                  item={item}
+                  key={`shopping-cart-${item.product_id}`}
+                  screenWidth={screenWidth}
+                />
+              ))}
+            </ScrollView>
+          </View>
+        )}
+      </ImageBackground>
       <AddButton />
-
-      {cart.length < 4 ? (
-        <View
-          style={{
-            flexDirection: "column",
-            justifyContent: "space-between",
-            marginHorizontal: 0.05 * screenWidth,
-            marginTop: 10,
-          }}
-        >
-          {cart.map((item, index) => (
-            <RenderProduct
-              index={index}
-              item={item}
-              key={`shopping-cart-${item.product_id}`}
-              screenWidth={screenWidth}
-            />
-          ))}
-        </View>
-      ) : (
-        <ScrollView
-          contentContainerStyle={{
-            flexDirection: "column",
-            flexWrap: "wrap",
-            marginHorizontal: "auto",
-            width: "90%",
-            height: screenWidth * 2,
-          }}
-        >
-          {cart.map((item, index) => (
-            <RenderProduct
-              index={index}
-              item={item}
-              key={`shopping-cart-${item.product_id}`}
-              screenWidth={screenWidth}
-            />
-          ))}
-        </ScrollView>
-      )}
       <GetRouteButton />
-    </View>
+    </>
   );
 }
 
@@ -218,10 +249,10 @@ function GetRouteButton() {
   return (
     <Pressable
       style={{
-        backgroundColor: "gray",
+        backgroundColor: "#ffffff",
         padding: 10,
-        borderWidth: 1,
-        borderColor: "black",
+        borderWidth: 2,
+        borderColor: "#A5366F",
         borderRadius: 8,
         position: "absolute",
         bottom: 30,
@@ -233,9 +264,11 @@ function GetRouteButton() {
         style={{
           fontSize: 20,
           textAlign: "center",
+          fontWeight: "800",
+          color: "#A5366F",
         }}
       >
-        Get Route
+        СТАРТ
       </Text>
     </Pressable>
   );

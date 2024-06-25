@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import {
-  View,
   Text,
   StyleSheet,
   Pressable,
   ScrollView,
   Dimensions,
   Image,
+  ImageBackground,
+  View,
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
@@ -24,8 +25,13 @@ interface Product {
 const CategoryDetails = () => {
   const cartContext = useContext(CartContext) as CartContextType;
 
-  const categoryName = useLocalSearchParams().name;
+  const categoryNameParam = useLocalSearchParams().name;
+  const categoryName = Array.isArray(categoryNameParam)
+    ? categoryNameParam[0]
+    : categoryNameParam;
+
   const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
   const {
     isPending,
     error,
@@ -40,14 +46,23 @@ const CategoryDetails = () => {
 
   if (isPending || !cartContext)
     return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <ImageBackground
+        source={require("@/assets/images/background.jpg")}
+        resizeMode="cover"
+        style={{
+          position: "absolute",
+          zIndex: -1,
+          width: screenWidth,
+          height: screenHeight,
+        }}
+      >
         <Stack.Screen
           options={{
             title: `${categoryName}`,
           }}
         />
         <Text className="text-3xl my-auto text-center">Loading...</Text>
-      </View>
+      </ImageBackground>
     );
 
   const { addToCart, cart } = cartContext;
@@ -60,7 +75,16 @@ const CategoryDetails = () => {
 
   if (error)
     return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <ImageBackground
+        source={require("@/assets/images/background.jpg")}
+        resizeMode="cover"
+        style={{
+          position: "absolute",
+          zIndex: -1,
+          width: screenWidth,
+          height: screenHeight,
+        }}
+      >
         <Stack.Screen
           options={{
             title: `${categoryName}`,
@@ -69,63 +93,75 @@ const CategoryDetails = () => {
         <Text className="text-3xl my-auto text-center">
           Error: {error.message}
         </Text>
-      </View>
+      </ImageBackground>
     );
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require("@/assets/images/background.jpg")}
+      resizeMode="cover"
+      style={{
+        position: "absolute",
+        zIndex: -1,
+        width: screenWidth,
+        height: screenHeight,
+      }}
+    >
       <Stack.Screen
         options={{
           title: `${categoryName}`,
         }}
       />
-      <ScrollView
-        contentContainerStyle={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "space-evenly",
-          width: "100%",
+      <View
+        style={{
+          height: screenHeight * 0.88,
+          marginTop: screenHeight * 0.12,
         }}
       >
-        {filteredProducts?.map((item: any, index: number) => {
-          const { color, borderColor } = getColorBasedOnIndex(index);
+        <ScrollView
+          contentContainerStyle={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-evenly",
+            width: "100%",
+          }}
+        >
+          {filteredProducts?.map((item: any, index: number) => {
+            const { color, borderColor } = getColorBasedOnIndex(index);
 
-          return (
-            <Pressable
-              key={item.product_id}
-              style={{
-                ...styles.categoryContainer,
-                borderColor: borderColor,
-                backgroundColor: color,
-              }}
-              className="w-[40%]"
-              onPress={() => {
-                addToCart(item);
-                router.replace("(tabs)/shopping-cart");
-              }}
-            >
-              <Image
-                source={require(`@/assets/category/4.jpg`)}
+            return (
+              <Pressable
+                key={item.product_id}
                 style={{
-                  height: screenWidth * 0.35,
-                  width: screenWidth * 0.35,
-                  borderRadius: 8,
+                  ...styles.categoryContainer,
+                  borderColor: borderColor,
+                  backgroundColor: color,
                 }}
-              />
-              <Text className="text-xl text-center">{item.name}</Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
-    </View>
+                className="w-[40%]"
+                onPress={() => {
+                  addToCart(item);
+                  router.replace("(tabs)/shopping-cart");
+                }}
+              >
+                <Image
+                  source={require(`@/assets/category/4.jpg`)}
+                  style={{
+                    height: screenWidth * 0.35,
+                    width: screenWidth * 0.35,
+                    borderRadius: 8,
+                  }}
+                />
+                <Text className="text-xl text-center">{item.name}</Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
   title: {
     fontSize: 24,
     fontWeight: "bold",

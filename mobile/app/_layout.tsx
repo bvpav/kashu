@@ -9,13 +9,12 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import "../styles/global.css";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { CartProvider } from "@/contexts/cart-context";
+import { View, Text, StyleSheet } from "react-native";
+import { BlurView } from "expo-blur";
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 void SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
@@ -42,9 +41,66 @@ export default function RootLayout() {
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
+            <Stack.Screen
+              name="category/index"
+              options={{
+                title: "Категории",
+                headerTransparent: true,
+                header: () => (
+                  <BlurView intensity={50} style={styles.headerContainer}>
+                    <View style={styles.wrapper}>
+                      <Text style={styles.headerTitle}>Категории</Text>
+                    </View>
+                  </BlurView>
+                ),
+              }}
+            />
+            <Stack.Screen
+              name="category/[name]"
+              options={{
+                headerTransparent: true,
+                header: () => (
+                  <BlurView intensity={50} style={styles.headerContainer}>
+                    <View style={styles.wrapper}>
+                      <Text style={styles.headerTitle}>Продукти</Text>
+                    </View>
+                  </BlurView>
+                ),
+              }}
+            />
           </Stack>
         </QueryClientProvider>
       </CartProvider>
     </ThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    height: 90,
+    width: "100%",
+    zIndex: 1000,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
+  wrapper: {
+    width: "100%",
+    borderWidth: 4,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderColor: "#A5366F",
+  },
+  headerTitle: {
+    textAlign: "center",
+    color: "#A5366F",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  iconLeft: {
+    // Styles for left icon
+  },
+  iconRight: {
+    // Styles for right icon
+  },
+});
