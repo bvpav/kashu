@@ -55,6 +55,8 @@ def delete_shopping_list(list_id):
 
 @shopping_list_bp.route('/api/shopping-lists/<int:list_id>/route', methods=['GET'])
 def get_shopping_list_route(list_id):
+    golden_eggs_pos = ((4, 27), (11, 32), (10, 23), (11, 22), (20, 25))
+
     shopping_list = ShoppingList.query.get(list_id)
     if shopping_list:
         product_ids = [
@@ -84,9 +86,22 @@ def get_shopping_list_route(list_id):
         for item in items:
             map[item[0]][item[1]] = 1
 
-        arr = map
-        path = [{'y': path[0], 'x': path[1]}
-                for path in get_path(start, end, items, arr)]
-        return jsonify(path)
+        paths = []
+
+        for golden_egg in golden_eggs_pos:
+            items.append(golden_egg)
+            map[golden_egg[0]][golden_egg[1]] = 1
+            paths.append(get_path(start, end, items, map))
+            map[golden_egg[0]][golden_egg[1]] = 'X'
+            items.pop()
+
+        shortest_path = min(paths, key=lambda x: len(x))
+
+        print(shortest_path)
+
+        shortest_path = [{'y': path[0], 'x': path[1]}
+                         for path in shortest_path]
+
+        return jsonify(shortest_path)
     else:
         return jsonify({'error': 'Shopping list not found'}), 404
