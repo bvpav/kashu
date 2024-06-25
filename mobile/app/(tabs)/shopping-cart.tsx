@@ -10,7 +10,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
-import { CartContext } from "@/contexts/cart-context";
+import { CartContext, CartContextType } from "@/contexts/cart-context";
 interface Product {
   id: number;
   name: string;
@@ -19,7 +19,7 @@ interface Product {
 }
 
 export default function ProductsScreen() {
-  const cartContext = useContext(CartContext);
+  const cartContext = useContext(CartContext) as CartContextType;
 
   if (!cartContext) {
     return <Text>Loading...</Text>;

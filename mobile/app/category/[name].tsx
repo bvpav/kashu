@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
-import { CartContext } from "@/contexts/cart-context";
+import { CartContext, CartContextType } from "@/contexts/cart-context";
 import { router } from "expo-router";
 
 interface Product {
@@ -21,7 +21,7 @@ interface Product {
 }
 
 const CategoryDetails = () => {
-  const cartContext = useContext(CartContext);
+  const cartContext = useContext(CartContext) as CartContextType;
 
   const categoryName = useLocalSearchParams().name;
   const screenWidth = Dimensions.get("window").width;

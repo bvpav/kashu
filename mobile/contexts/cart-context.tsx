@@ -1,4 +1,5 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface Product {
   id: number;
@@ -7,7 +8,7 @@ interface Product {
   category_id: number;
 }
 
-interface CartContextType {
+export interface CartContextType {
   cart: Product[];
   addToCart: (product: Product) => void;
 }
@@ -22,6 +23,38 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cart, setCart] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const loadCart = async () => {
+      try {
+        const storedCart = await AsyncStorage.getItem(
+          "grocery-pathfinder-shopping-cart",
+        );
+        if (storedCart) {
+          setCart(JSON.parse(storedCart));
+        }
+      } catch (error) {
+        console.error("Failed to load cart from storage", error);
+      }
+    };
+
+    loadCart();
+  }, []);
+
+  useEffect(() => {
+    const saveCart = async () => {
+      try {
+        await AsyncStorage.setItem(
+          "grocery-pathfinder-shopping-cart",
+          JSON.stringify(cart),
+        );
+      } catch (error) {
+        console.error("Failed to save cart to storage", error);
+      }
+    };
+
+    saveCart();
+  }, [cart]);
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => [...prevCart, product]);
