@@ -1,4 +1,3 @@
-// app/category/[id].tsx
 import React from "react";
 import {
   View,
@@ -10,27 +9,60 @@ import {
   Image,
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
-import {
-  getCategoryNameById,
-  getCategoryProducts,
-} from "@/services/categories";
+import { useQuery } from "@tanstack/react-query";
+
+interface Product {
+  id: number;
+  product_id: string;
+  name: string;
+  category_id: number;
+}
 
 const CategoryDetails = () => {
-  const local = useLocalSearchParams();
-  const id = Array.isArray(local.id)
-    ? parseInt(local.id[0])
-    : parseInt(local.id ?? "");
-
+  const categoryName = useLocalSearchParams().name;
   const screenWidth = Dimensions.get("window").width;
+  const {
+    isPending,
+    error,
+    data: products,
+  } = useQuery({
+    queryKey: ["products-", categoryName],
+    queryFn: () =>
+      fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/api/products?category=${categoryName}`
+      ).then((res) => res.json()) as Promise<Product[]>,
+  });
 
-  const products = getCategoryProducts(id);
-  const category_name = getCategoryNameById(id);
-  console.log(category_name);
+  if (isPending)
+    return (
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <Stack.Screen
+          options={{
+            title: `${categoryName}`,
+          }}
+        />
+        <Text className="text-3xl my-auto text-center">Loading...</Text>
+      </View>
+    );
+  if (error)
+    return (
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <Stack.Screen
+          options={{
+            title: `${categoryName}`,
+          }}
+        />
+        <Text className="text-3xl my-auto text-center">
+          Error: {error.message}
+        </Text>
+      </View>
+    );
+
   return (
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          title: `${category_name}`,
+          title: `${categoryName}`,
         }}
       />
       <ScrollView
@@ -41,7 +73,7 @@ const CategoryDetails = () => {
           width: "100%",
         }}
       >
-        {products.map((item) => (
+        {products.map((item: any) => (
           <Pressable
             key={item.product_id}
             style={styles.categoryContainer}

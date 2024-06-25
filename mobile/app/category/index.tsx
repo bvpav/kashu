@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
-import categoriesData from "../categories.json";
-import React, { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import {
   View,
   Text,
@@ -17,11 +17,33 @@ interface Category {
 }
 
 export default function ProductsScreen() {
-  const [categories, setCategories] = useState<Category[]>([]);
   const screenWidth = Dimensions.get("window").width;
-  useEffect(() => {
-    setCategories(categoriesData.categories);
-  }, []);
+  const {
+    isPending,
+    error,
+    data: categories,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () =>
+      fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/categories`).then(
+        (res) => res.json() as Promise<Category[]>
+      ),
+  });
+
+  if (isPending)
+    return (
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <Text className="text-3xl my-auto text-center">Loading...</Text>
+      </View>
+    );
+  if (error)
+    return (
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <Text className="text-3xl my-auto text-center">
+          Error: {error.message}
+        </Text>
+      </View>
+    );
 
   const styles = StyleSheet.create({
     categoryContainer: {
@@ -60,7 +82,7 @@ export default function ProductsScreen() {
         }}
       >
         {categories.map((item) => (
-          <Link href={"category/" + item.id} asChild key={item.id}>
+          <Link href={"category/" + item.name} asChild key={item.id}>
             <Pressable style={styles.categoryContainer} className="w-full">
               <View
                 style={{
@@ -75,8 +97,6 @@ export default function ProductsScreen() {
               <Image
                 source={require(`../../assets/category/4.jpg`)}
                 style={{
-                  //   position: "absolute",
-                  //   right: screenWidth * 0.03,
                   height: screenWidth * 0.3,
                   width: screenWidth * 0.3,
                   borderRadius: 8,
