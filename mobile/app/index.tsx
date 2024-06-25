@@ -7,8 +7,8 @@ export default function IndexScreen() {
       <Stack.Screen options={{ title: "Home screen" }} />
       <View style={styles.container} className="bg-slate-200">
         <Text className="text-black">This screen is the index screen.</Text>
-        <Link href="/products" className="bg-gray-400" style={styles.link}>
-          <Text>Go to test screen!</Text>
+        <Link href="/category" className="bg-gray-400" style={styles.link}>
+          <Text>Категории</Text>
         </Link>
       </View>
     </>
