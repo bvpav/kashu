@@ -4,9 +4,9 @@ import { StyleSheet, Text, View } from "react-native";
 export default function TestScreen() {
   return (
     <>
-      <Stack.Screen options={{ title: "Test screen" }} />
+      <Stack.Screen options={{ title: "Карта" }} />
       <View style={styles.container} className="bg-slate-400">
-        <Text className="text-black">This screen is the test screen.</Text>
+        <Text className="text-black">Insert Map Here...</Text>
       </View>
     </>
   );
