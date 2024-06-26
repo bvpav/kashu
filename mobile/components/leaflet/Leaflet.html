@@ -1,0 +1,179 @@
+<!-- Author: Patrick Abrahamsson -->
+<!-- https://leafletjs.com/reference.html#event -->
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
+    <style>
+      html,
+      body {
+        margin: 0px;
+        padding: 0px;
+        height: 100%;
+        background-color: transparent;
+      }
+      #map {
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <div id="log"></div>
+
+    <script type="text/javascript">
+      // POST to app
+      const sendToApp = async (message) => {
+        window.ReactNativeWebView.postMessage(JSON.stringify(message));
+      };
+
+      // Exclude the current attribution
+      L.Control.Attribution.include({
+        _update: function () {
+          if (!this._map) {
+            return;
+          }
+
+          var attribs = [];
+          for (var i in this._attributions) {
+            if (this._attributions.hasOwnProperty(i) && this._attributions[i]) {
+              attribs.push(i);
+            }
+          }
+
+          // Customize the attribution text
+          var prefix = ""; // Set an empty prefix
+          this._container.innerHTML = prefix + attribs.join(" | ");
+        },
+      });
+
+      // Initialize map
+      var map = L.map("map", {
+        attributionControl: false,
+        zoomControl: true,
+      }).setView([0, 0]);
+
+      L.control
+        .attribution({
+          position: "bottomright",
+        })
+        .addTo(map);
+
+      const clearMarkers = () => {
+        map.eachLayer(function (layer) {
+          if (layer instanceof L.Marker) {
+            map.removeLayer(layer);
+          }
+        });
+      };
+
+      // Requests from app
+      window.addEventListener("message", (e) => {
+        const parser = JSON.parse(e.data);
+
+        alert(JSON.stringify(parser));
+
+        if (parser.clearMarkers) {
+          clearMarkers();
+        }
+
+        // Sets zoom
+        if (parser?.zoom > -1) {
+          map.setZoom(parser?.zoom);
+        }
+
+        // Sets maxZoom
+        if (parser?.maxZoom) {
+          map.setMaxZoom(parser?.maxZoom);
+        }
+
+        // Sets minZoom
+        if (parser?.minZoom) {
+          map.setMinZoom(parser?.minZoom);
+        }
+
+        // Sets flyTo
+        if (parser?.flyTo) {
+          const latLng = parser?.flyTo?.latLng;
+          const zoom = parser?.flyTo?.zoom;
+
+          map.flyTo(latLng, zoom);
+        }
+
+        // Sets markers
+        if (parser?.markers) {
+          const markers = parser?.markers;
+
+          markers?.forEach((marker) => {
+            const fallbackUrl =
+              "https://github.com/putteabrahamsson/icons/blob/development/pin.png?raw=true";
+
+            const icon = L.icon({
+              iconUrl: marker.icon || fallbackUrl,
+              iconSize: [
+                marker?.iconSize?.width || 25,
+                marker?.iconSize?.height || 25,
+              ],
+            });
+
+            const popup = L.popup()
+              .setLatLng(marker?.latLng)
+              .setContent(marker?.title);
+
+            const savedMarker = L.marker(marker?.latLng, {
+              icon,
+            }).addTo(map);
+
+            if (!marker.disabled) {
+              savedMarker.bindPopup(popup);
+            }
+          });
+        }
+
+        // Sets GeoJSON
+        if (parser?.geoJson) {
+          L.geoJSON(parser?.geoJson).addTo(map);
+        }
+
+        // Sets map tiles
+        if (parser?.mapLayers) {
+          const layerObj = {};
+
+          parser?.mapLayers?.forEach((layer) => {
+            const newLayer = L.tileLayer(layer.src, {
+              ...layer.tileOptions,
+              attribution: "",
+            }).addTo(map);
+
+            layerObj[layer.name] = newLayer;
+          });
+
+          if (Object.keys(layerObj).length > 1) {
+            L.control.layers(null, layerObj, { collapsed: false }).addTo(map);
+          }
+        }
+      });
+
+      //   window.removeEventListener(null, listener);
+    </script>
+  </body>
+</html>
