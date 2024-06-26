@@ -152,6 +152,15 @@
             L.imageOverlay(layer.src, layer.bounds).addTo(map);
           });
         }
+
+        if (parser?.bounds) {
+          map.fitBounds(parser?.bounds);
+          map.setMaxBounds(parser?.bounds);
+        }
+
+        if (parser?.polyline) {
+          L.polyline(parser?.polyline.pointList, parser?.polyline).addTo(map);
+        }
       };
       // HACK: The message fires differently on iOS and Android - iOS receives
       // the window event and Android receives the document event. This is a

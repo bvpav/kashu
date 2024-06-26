@@ -14,6 +14,7 @@ import {
   GeoJson,
   ImageOverlay,
   Markers,
+  Point,
   RNLeafletRef,
   TFlyTo,
   Zoom,
@@ -34,6 +35,13 @@ type Props = {
   startInLoadingState?: boolean;
   backgroundColor?: string;
   injectJavascript?: string;
+  polyline?: {
+    pointList: Point[];
+    color: string;
+    weight: number;
+    opacity: number;
+    smoothFactor: number;
+  };
 };
 
 export const RNLeaflet = forwardRef<RNLeafletRef, Props>(
@@ -53,6 +61,7 @@ export const RNLeaflet = forwardRef<RNLeafletRef, Props>(
       startInLoadingState = true,
       backgroundColor,
       injectJavascript,
+      polyline,
     },
     // eslint-disable-next-line prettier/prettier
     passRef,
@@ -124,6 +133,9 @@ export const RNLeaflet = forwardRef<RNLeafletRef, Props>(
       if (bounds) {
         sendAction({ bounds });
       }
+      if (polyline) {
+        sendAction({ polyline });
+      }
     }, [
       flyTo,
       flyTo?.latLng,
@@ -133,6 +145,7 @@ export const RNLeaflet = forwardRef<RNLeafletRef, Props>(
       sendAction,
       imageOverlays,
       bounds,
+      polyline,
       zoom,
       configured,
       minZoom,

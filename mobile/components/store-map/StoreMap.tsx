@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RNLeaflet } from "../leaflet/Leaflet";
 import { RNLeafletRef } from "../leaflet/types";
 import { useQuery } from "@tanstack/react-query";
@@ -7,6 +7,7 @@ import { View } from "react-native";
 
 export default function StoreMap() {
   const leafletRef = useRef<RNLeafletRef>(null);
+  const [hasFlownToStart, setHasFlownToStart] = useState(false);
   const { data: map } = useQuery({
     queryKey: ["map"],
     queryFn: async () => {
@@ -16,6 +17,16 @@ export default function StoreMap() {
       return response.json() as Promise<MapResponse>;
     },
   });
+
+  useEffect(() => {
+    if (leafletRef.current && map) {
+      leafletRef.current.flyTo({
+        latLng: map.leaflet_data.start_position,
+        zoom: 15,
+      });
+      setHasFlownToStart(true);
+    }
+  }, [leafletRef, map, hasFlownToStart]);
 
   if (!map) {
     return null;
@@ -41,12 +52,246 @@ export default function StoreMap() {
             latLng: map.leaflet_data.end_position,
             title: "End",
           },
-          // (1, 2)
           {
-            latLng: [2, 1],
+            latLng: [0, 3],
           },
         ]}
+        polyline={{
+          pointList: path.map((point) => [point.y, point.x]),
+          color: "blue",
+          weight: 3,
+          opacity: 0.5,
+          smoothFactor: 1,
+        }}
       />
     </View>
   );
 }
+
+const path = [
+  {
+    is_collectable: false,
+    x: 0,
+    y: 6,
+  },
+  {
+    is_collectable: false,
+    x: 1,
+    y: 5,
+  },
+  {
+    is_collectable: false,
+    x: 2,
+    y: 4,
+  },
+  {
+    is_collectable: true,
+    x: 3,
+    y: 4,
+  },
+  {
+    is_collectable: false,
+    x: 4,
+    y: 5,
+  },
+  {
+    is_collectable: false,
+    x: 5,
+    y: 6,
+  },
+  {
+    is_collectable: false,
+    x: 6,
+    y: 7,
+  },
+  {
+    is_collectable: false,
+    x: 7,
+    y: 7,
+  },
+  {
+    is_collectable: false,
+    x: 8,
+    y: 7,
+  },
+  {
+    is_collectable: false,
+    x: 9,
+    y: 7,
+  },
+  {
+    is_collectable: false,
+    x: 10,
+    y: 7,
+  },
+  {
+    is_collectable: false,
+    x: 11,
+    y: 7,
+  },
+  {
+    is_collectable: false,
+    x: 12,
+    y: 7,
+  },
+  {
+    is_collectable: false,
+    x: 13,
+    y: 8,
+  },
+  {
+    is_collectable: false,
+    x: 14,
+    y: 9,
+  },
+  {
+    is_collectable: false,
+    x: 15,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 16,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 17,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 18,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 19,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 20,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 21,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 22,
+    y: 11,
+  },
+  {
+    is_collectable: false,
+    x: 21,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 20,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 19,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 18,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 17,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 16,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 15,
+    y: 10,
+  },
+  {
+    is_collectable: false,
+    x: 14,
+    y: 11,
+  },
+  {
+    is_collectable: false,
+    x: 13,
+    y: 12,
+  },
+  {
+    is_collectable: false,
+    x: 12,
+    y: 13,
+  },
+  {
+    is_collectable: false,
+    x: 11,
+    y: 14,
+  },
+  {
+    is_collectable: false,
+    x: 10,
+    y: 15,
+  },
+  {
+    is_collectable: false,
+    x: 9,
+    y: 15,
+  },
+  {
+    is_collectable: false,
+    x: 8,
+    y: 16,
+  },
+  {
+    is_collectable: false,
+    x: 7,
+    y: 17,
+  },
+  {
+    is_collectable: false,
+    x: 6,
+    y: 17,
+  },
+  {
+    is_collectable: false,
+    x: 5,
+    y: 17,
+  },
+  {
+    is_collectable: false,
+    x: 4,
+    y: 17,
+  },
+  {
+    is_collectable: false,
+    x: 3,
+    y: 17,
+  },
+  {
+    is_collectable: false,
+    x: 2,
+    y: 17,
+  },
+  {
+    is_collectable: false,
+    x: 1,
+    y: 17,
+  },
+  {
+    is_collectable: false,
+    x: 0,
+    y: 17,
+  },
+];

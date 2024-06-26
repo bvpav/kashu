@@ -59,7 +59,8 @@ export type RNLeafletRef = {
   clearMarkers: () => void;
 };
 
-export type Bounds = [[number, number], [number, number]];
+export type Point = [number, number];
+export type Bounds = [Point, Point];
 
 export type ImageOverlay = {
   src: string;
