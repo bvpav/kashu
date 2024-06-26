@@ -1,5 +1,6 @@
 import io
 import os
+from builtins import reversed
 from functools import cache
 from typing import Callable
 
@@ -37,8 +38,11 @@ def render_map() -> io.BytesIO:
     width = len(store_map[0])
     height = len(store_map)
     surface = pygame.Surface((width * TILE_SIZE, height * TILE_SIZE))
+    
+    # Fill with #d8d8d8
+    surface.fill((216, 216, 216))
 
-    for y, row in enumerate(store_map):
+    for y, row in enumerate(reversed(store_map)):
         for x, tile in enumerate(row):
             surface.blit(load_tile(tile), (x * TILE_SIZE, y * TILE_SIZE))
 
