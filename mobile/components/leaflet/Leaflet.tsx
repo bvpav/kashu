@@ -7,12 +7,21 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import WebView from "react-native-webview";
-import { GeoJson, Layers, Markers, RNLeafletRef, TFlyTo, Zoom } from "./types";
+import {
+  Bounds,
+  GeoJson,
+  ImageOverlay,
+  Markers,
+  RNLeafletRef,
+  TFlyTo,
+  Zoom,
+} from "./types";
 
 type Props = {
-  mapLayers: Layers[];
+  imageOverlays: ImageOverlay[];
+  bounds: Bounds;
   geoJson?: GeoJson;
   zoom?: Zoom;
   minZoom?: Zoom;
@@ -30,7 +39,8 @@ type Props = {
 export const RNLeaflet = forwardRef<RNLeafletRef, Props>(
   (
     {
-      mapLayers,
+      imageOverlays,
+      bounds,
       geoJson,
       zoom = 0,
       minZoom,
@@ -108,8 +118,11 @@ export const RNLeaflet = forwardRef<RNLeafletRef, Props>(
           },
         });
       }
-      if (mapLayers) {
-        sendAction({ mapLayers });
+      if (imageOverlays) {
+        sendAction({ imageOverlays });
+      }
+      if (bounds) {
+        sendAction({ bounds });
       }
     }, [
       flyTo,
@@ -118,7 +131,8 @@ export const RNLeaflet = forwardRef<RNLeafletRef, Props>(
       markers,
       maxZoom,
       sendAction,
-      mapLayers,
+      imageOverlays,
+      bounds,
       zoom,
       configured,
       minZoom,

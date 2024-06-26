@@ -58,3 +58,10 @@ export type RNLeafletRef = {
   flyTo: (props: TFlyTo) => void;
   clearMarkers: () => void;
 };
+
+export type Bounds = [[number, number], [number, number]];
+
+export type ImageOverlay = {
+  src: string;
+  bounds: Bounds;
+};

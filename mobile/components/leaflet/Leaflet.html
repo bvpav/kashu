@@ -69,14 +69,8 @@
       // Initialize map
       var map = L.map("map", {
         attributionControl: false,
-        zoomControl: true,
+        zoomControl: false,
       }).setView([0, 0]);
-
-      L.control
-        .attribution({
-          position: "bottomright",
-        })
-        .addTo(map);
 
       const clearMarkers = () => {
         map.eachLayer(function (layer) {
@@ -153,21 +147,10 @@
         }
 
         // Sets map tiles
-        if (parser?.mapLayers) {
-          const layerObj = {};
-
-          parser?.mapLayers?.forEach((layer) => {
-            const newLayer = L.tileLayer(layer.src, {
-              ...layer.tileOptions,
-              attribution: "",
-            }).addTo(map);
-
-            layerObj[layer.name] = newLayer;
+        if (parser?.imageOverlays) {
+          parser?.imageOverlays?.forEach((layer) => {
+            L.imageOverlay(layer.src, layer.bounds).addTo(map);
           });
-
-          if (Object.keys(layerObj).length > 1) {
-            L.control.layers(null, layerObj, { collapsed: false }).addTo(map);
-          }
         }
       };
       // HACK: The message fires differently on iOS and Android - iOS receives
