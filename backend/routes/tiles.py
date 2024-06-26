@@ -62,6 +62,9 @@ def get_map_dimensions(store_map) -> tuple[int, int]:
 def get_tile_at(store_map, x: int, y: int) -> Optional[str]:
     width, height = get_map_dimensions(store_map)
     if 0 <= x < width and 0 <= y < height:
+        # If the coordinates are on the edge, lie that there is a wall
+        if x == 0 or y == 0 or x == width - 1 or y == height - 1:
+            return 'W'
         value = store_map[height - y - 1][x]
         return value if value != '.' else None
     return None
@@ -92,7 +95,7 @@ def render_map() -> io.BytesIO:
 
     for y, row in enumerate(reversed(store_map)):
         for x, tile in enumerate(row):
-            if tile != '.':
+            if get_tile_at(store_map, x, y):
                 # We need to draw connections
                 connection_thickness = 15
                 con_left_rect = pygame.Rect(
@@ -136,7 +139,7 @@ def render_map() -> io.BytesIO:
             # Draw squares for products
             if tile == 'P':
                 hue = get_hue_for_category_name(coords_to_category.get((y, x), 'Unknown'))
-                hsl = (hue, 0.5, 0.5)
+                hsl = (hue, 0.3, 0.5)
                 color = hsl_to_rgb(*hsl)
                 rect_size = 70
                 rect = pygame.Rect(
