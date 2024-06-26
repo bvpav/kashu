@@ -13,13 +13,7 @@ import {
 } from "react-native";
 import { getColorBasedOnIndex } from "@/constants/Colors";
 import { CartContext, CartContextType } from "@/contexts/cart-context";
-import { BlurView } from "expo-blur";
-interface Product {
-  id: number;
-  name: string;
-  product_id: string;
-  category_id: number;
-}
+import Product from "@/types/products";
 
 export default function ProductsScreen() {
   const cartContext = useContext(CartContext) as CartContextType;

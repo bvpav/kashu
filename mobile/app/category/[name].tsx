@@ -16,13 +16,7 @@ import { router } from "expo-router";
 import { getColorBasedOnIndex } from "@/constants/Colors";
 import Header from "@/components/header";
 import { useTabBarHeight } from "@/contexts/tab-bar-height";
-
-interface Product {
-  id: number;
-  product_id: string;
-  name: string;
-  category_id: number;
-}
+import Product from "@/types/products";
 
 const CategoryDetails = () => {
   const cartContext = useContext(CartContext) as CartContextType;

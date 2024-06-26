@@ -1,12 +1,6 @@
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-interface Product {
-  id: number;
-  name: string;
-  product_id: string;
-  category_id: number;
-}
+import Product from "@/types/products";
 
 export interface CartContextType {
   cart: Product[];
