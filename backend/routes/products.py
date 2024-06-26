@@ -6,7 +6,6 @@ products_bp = Blueprint('products', __name__)
 @products_bp.route('/api/products/')
 def get_products():
     category_name = request.args.get('category')
-    search_query = request.args.get('search', '')
 
     query = Product.query
 
@@ -16,9 +15,6 @@ def get_products():
             query = query.filter_by(category_id=category.id)
         else:
             return jsonify({'error': 'Category not found'}), 404
-
-    if search_query:
-        query = query.filter(Product.name.ilike(f'%{search_query}%'))
 
     products = query.all()
     return jsonify([product.to_dict() for product in products])

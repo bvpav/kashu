@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import {
   Text,
   StyleSheet,
@@ -17,11 +17,16 @@ import { getColorBasedOnIndex } from "@/constants/Colors";
 import Header from "@/components/header";
 import { useTabBarHeight } from "@/contexts/tab-bar-height";
 import Product from "@/types/products";
+import LoadingPage from "@/components/loading";
+import ErrorPage from "@/components/error";
+import { TextInput } from "react-native";
 
 const CategoryDetails = () => {
   const cartContext = useContext(CartContext) as CartContextType;
   const { tabBarHeight } = useTabBarHeight();
   const categoryNameParam = useLocalSearchParams().name;
+  const [searchQuery, setSearchQuery] = React.useState("");
+
   const categoryName = Array.isArray(categoryNameParam)
     ? categoryNameParam[0]
     : categoryNameParam;
@@ -39,57 +44,46 @@ const CategoryDetails = () => {
         `${process.env.EXPO_PUBLIC_API_URL}/api/products?category=${categoryName}`,
       ).then((res) => res.json()) as Promise<Product[]>,
   });
-
-  if (isPending || !cartContext)
-    return (
-      <ImageBackground
-        source={require("@/assets/images/background.jpg")}
-        resizeMode="cover"
-        style={{
-          position: "absolute",
-          zIndex: -1,
-          width: screenWidth,
-          height: screenHeight + tabBarHeight,
-        }}
-      >
-        <Stack.Screen
-          options={{
-            title: `${categoryName}`,
-          }}
-        />
-        <Text className="text-3xl my-auto text-center">Loading...</Text>
-      </ImageBackground>
-    );
-
   const { addToCart, cart } = cartContext;
 
+  if (!cartContext) {
+    return (
+      <LoadingPage
+        screenWidth={screenWidth}
+        screenHeight={screenHeight}
+        tabBarHeight={0}
+      />
+    );
+  }
   const filteredProducts = products?.filter((product) => {
     return !cart.some(
       (cartProduct) => cartProduct.product_id === product.product_id,
     );
   });
 
+  const filteredSelectProducts = useMemo(() => {
+    return filteredProducts?.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+  }, [filteredProducts, searchQuery]);
+
+  if (isPending)
+    return (
+      <LoadingPage
+        screenWidth={screenWidth}
+        screenHeight={screenHeight}
+        tabBarHeight={tabBarHeight}
+      />
+    );
+
   if (error)
     return (
-      <ImageBackground
-        source={require("@/assets/images/background.jpg")}
-        resizeMode="cover"
-        style={{
-          position: "absolute",
-          zIndex: -1,
-          width: screenWidth,
-          height: screenHeight + tabBarHeight,
-        }}
-      >
-        <Stack.Screen
-          options={{
-            title: `${categoryName}`,
-          }}
-        />
-        <Text className="text-3xl my-auto text-center">
-          Error: {error.message}
-        </Text>
-      </ImageBackground>
+      <ErrorPage
+        error={error}
+        screenWidth={screenWidth}
+        screenHeight={screenHeight}
+        tabBarHeight={tabBarHeight}
+      />
     );
 
   return (
@@ -110,6 +104,21 @@ const CategoryDetails = () => {
           marginTop: screenHeight * 0.02,
         }}
       >
+        <TextInput
+          style={{
+            height: 40,
+            fontSize: 20,
+            borderColor: "#A5366F",
+            borderWidth: 2,
+            margin: 10,
+            borderRadius: 10,
+            paddingHorizontal: 10,
+            backgroundColor: "#ffffff",
+          }}
+          onChangeText={setSearchQuery}
+          value={searchQuery}
+          placeholder="Потърси продукт"
+        />
         <ScrollView
           contentContainerStyle={{
             flexDirection: "row",
@@ -118,7 +127,7 @@ const CategoryDetails = () => {
             width: "100%",
           }}
         >
-          {filteredProducts?.map((item: any, index: number) => {
+          {filteredSelectProducts?.map((item: any, index: number) => {
             const { color, borderColor } = getColorBasedOnIndex(index);
 
             return (
