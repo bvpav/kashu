@@ -87,7 +87,7 @@
       };
 
       // Requests from app
-      window.addEventListener("message", (e) => {
+      const messageCallback = (e) => {
         const parser = JSON.parse(e.data);
 
         alert(JSON.stringify(parser));
@@ -171,9 +171,14 @@
             L.control.layers(null, layerObj, { collapsed: false }).addTo(map);
           }
         }
-      });
+      };
+      // HACK: The message fires differently on iOS and Android - iOS receives
+      // the window event and Android receives the document event. This is a
+      // temporary solution until we find a better way to handle this. :/
 
-      //   window.removeEventListener(null, listener);
+      // TODO: check which one we need to use and only use one
+      document.addEventListener("message", messageCallback);
+      window.addEventListener("message", messageCallback);
     </script>
   </body>
 </html>
