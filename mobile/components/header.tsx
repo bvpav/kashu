@@ -15,14 +15,26 @@ export default function Header({
     <BlurView intensity={10} style={styles.headerContainer}>
       <View style={styles.wrapper}>
         {backArrow && (
-          <Pressable onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={38} color="#A5366F" />
-          </Pressable>
+          <>
+            <Pressable onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={38} color="#A5366F" />
+            </Pressable>
+
+            <View style={styles.titleContainer}>
+              <Text style={styles.headerTitle}>{title}</Text>
+            </View>
+            <View style={styles.placeholder} />
+          </>
         )}
-        <View style={styles.titleContainer}>
-          <Text style={styles.headerTitle}>{title}</Text>
-        </View>
-        <View style={styles.placeholder} />
+        {!backArrow && (
+          <>
+            <View style={styles.placeholder} />
+            <View style={styles.titleContainer}>
+              <Text style={styles.headerTitle}>{title}</Text>
+            </View>
+            <View style={styles.placeholder} />
+          </>
+        )}
       </View>
     </BlurView>
   );

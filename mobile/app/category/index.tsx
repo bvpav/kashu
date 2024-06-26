@@ -1,23 +1,14 @@
 import { Link, Stack } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  Dimensions,
-  Pressable,
-  ImageBackground,
-  TextInput,
-} from "react-native";
-import { getColorBasedOnIndex } from "@/constants/Colors";
+import { View, ScrollView, Dimensions, TextInput } from "react-native";
 import { useTabBarHeight } from "@/contexts/tab-bar-height";
 import CategoryExpanded from "@/types/categories";
 import LoadingPage from "@/components/loading";
 import ErrorPage from "@/components/error";
 import { searchProductInCategories } from "@/services/category";
+import CategoryRender from "@/components/category";
+import BackgroundImage from "@/components/background-image";
 
 export default function ProductsScreen() {
   const { tabBarHeight } = useTabBarHeight();
@@ -59,42 +50,8 @@ export default function ProductsScreen() {
       />
     );
 
-  const styles = StyleSheet.create({
-    categoryContainer: {
-      height: screenWidth * 0.35,
-      flexDirection: "row",
-      alignItems: "center",
-      marginVertical: 4,
-      borderWidth: 1,
-      textAlign: "center",
-      borderColor: "grey",
-      // iOS Shadow
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      // Android Shadow
-      elevation: 5,
-      borderRadius: 10,
-      padding: 10,
-      backgroundColor: "#f8f8f8",
-    },
-  });
-
   return (
-    <ImageBackground
-      source={require("@/assets/images/background.jpg")}
-      resizeMode="cover"
-      style={{
-        position: "absolute",
-        zIndex: -1,
-        width: screenWidth,
-        height: screenHeight + tabBarHeight,
-      }}
-    >
+    <BackgroundImage screenHeight={screenHeight} screenWidth={screenWidth}>
       <View
         style={{
           height: screenHeight * 0.88 + tabBarHeight,
@@ -124,42 +81,16 @@ export default function ProductsScreen() {
             width: "90%",
           }}
         >
-          {filteredCategories?.map((item, index) => {
-            const { color, borderColor } = getColorBasedOnIndex(index);
-            return (
-              <Link href={"category/" + item.name} asChild key={item.id}>
-                <Pressable
-                  style={{
-                    ...styles.categoryContainer,
-                    borderColor: borderColor,
-                    backgroundColor: color,
-                  }}
-                  className="w-full"
-                >
-                  <View
-                    style={{
-                      width: 0.54 * screenWidth,
-                    }}
-                  >
-                    <Text className="text-3xl font-medium">{item.name}</Text>
-                    <Text className="text-xl">{item.description}</Text>
-                  </View>
-                  <Image
-                    source={{
-                      uri: `${process.env.EXPO_PUBLIC_API_URL}/assets/categories/${item.id}.jpg`,
-                    }}
-                    style={{
-                      height: screenWidth * 0.3,
-                      width: screenWidth * 0.3,
-                      borderRadius: 8,
-                    }}
-                  />
-                </Pressable>
-              </Link>
-            );
-          })}
+          {filteredCategories?.map((item, index) => (
+            <CategoryRender
+              item={item}
+              index={index}
+              screenWidth={screenWidth}
+              key={item.id}
+            />
+          ))}
         </ScrollView>
       </View>
-    </ImageBackground>
+    </BackgroundImage>
   );
 }

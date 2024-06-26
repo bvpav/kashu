@@ -8,13 +8,13 @@ import {
   ScrollView,
   Dimensions,
   Pressable,
-  ImageBackground,
   TouchableOpacity,
 } from "react-native";
 import { getColorBasedOnIndex } from "@/constants/Colors";
 import { CartContext, CartContextType } from "@/contexts/cart-context";
 import Product from "@/types/products";
 import LoadingPage from "@/components/loading";
+import BackgroundImage from "@/components/background-image";
 
 export default function ProductsScreen() {
   const cartContext = useContext(CartContext) as CartContextType;
@@ -35,16 +35,7 @@ export default function ProductsScreen() {
 
   return (
     <>
-      <ImageBackground
-        source={require("@/assets/images/background.jpg")}
-        resizeMode="cover"
-        style={{
-          position: "absolute",
-          zIndex: -1,
-          width: screenWidth,
-          height: screenHeight + 100,
-        }}
-      >
+      <BackgroundImage screenWidth={screenWidth} screenHeight={screenHeight}>
         {cart.length === 0 && (
           <Text
             style={{
@@ -101,7 +92,7 @@ export default function ProductsScreen() {
             </ScrollView>
           </View>
         )}
-      </ImageBackground>
+      </BackgroundImage>
       <AddButton />
       <GetRouteButton />
     </>

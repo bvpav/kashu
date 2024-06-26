@@ -1,4 +1,5 @@
-import { ImageBackground, Text } from "react-native";
+import { Text } from "react-native";
+import BackgroundImage from "./background-image";
 
 export default function ErrorPage({
   error,
@@ -12,16 +13,7 @@ export default function ErrorPage({
   tabBarHeight: number;
 }) {
   return (
-    <ImageBackground
-      source={require("@/assets/images/background.jpg")}
-      resizeMode="cover"
-      style={{
-        position: "absolute",
-        zIndex: -1,
-        width: screenWidth,
-        height: screenHeight + tabBarHeight,
-      }}
-    >
+    <BackgroundImage screenWidth={screenWidth} screenHeight={screenHeight}>
       <Text
         style={{
           fontSize: 32,
@@ -31,6 +23,6 @@ export default function ErrorPage({
       >
         Error: {error.message}
       </Text>
-    </ImageBackground>
+    </BackgroundImage>
   );
 }

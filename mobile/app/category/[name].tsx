@@ -6,10 +6,9 @@ import {
   ScrollView,
   Dimensions,
   Image,
-  ImageBackground,
   View,
 } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { CartContext, CartContextType } from "@/contexts/cart-context";
 import { router } from "expo-router";
@@ -20,6 +19,7 @@ import Product from "@/types/products";
 import LoadingPage from "@/components/loading";
 import ErrorPage from "@/components/error";
 import { TextInput } from "react-native";
+import BackgroundImage from "@/components/background-image";
 
 const CategoryDetails = () => {
   const cartContext = useContext(CartContext) as CartContextType;
@@ -87,16 +87,7 @@ const CategoryDetails = () => {
     );
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/background.jpg")}
-      resizeMode="cover"
-      style={{
-        position: "absolute",
-        zIndex: -1,
-        width: screenWidth,
-        height: screenHeight + tabBarHeight,
-      }}
-    >
+    <BackgroundImage screenWidth={screenWidth} screenHeight={screenHeight}>
       <Header title={categoryName ?? ""} backArrow={true} />
       <View
         style={{
@@ -160,7 +151,7 @@ const CategoryDetails = () => {
           })}
         </ScrollView>
       </View>
-    </ImageBackground>
+    </BackgroundImage>
   );
 };
 
