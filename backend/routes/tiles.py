@@ -1,3 +1,4 @@
+import datetime
 import io
 import os
 from builtins import reversed
@@ -159,4 +160,8 @@ def render_map() -> io.BytesIO:
 @tiles_bp.get('/api/map')
 def get_tile():
     buffer = render_map()
-    return flask.send_file(buffer, mimetype='image/png')
+    response = flask.send_file(buffer, mimetype='image/png')
+    response.cache_control.max_age = 60  # Cache the response for 60 seconds
+    response.cache_control.stale_while_revalidate = 300  # Allow stale content for 5 minutes while revalidating
+    response.last_modified = datetime.datetime.utcnow()
+    return response
