@@ -1,7 +1,5 @@
 import { Tabs } from "expo-router";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Header from "@/components/header";
 
 export default function TabsLayout() {
@@ -18,34 +16,49 @@ export default function TabsLayout() {
           borderTopWidth: 3,
           borderColor: "#A5366F",
         },
+        tabBarLabelStyle: {
+          fontSize: 0,
+        },
       }}
     >
       <Tabs.Screen
         name="index"
-        options={{
-          tabBarIcon: () => <AntDesign name="home" size={24} color="#A5366F" />,
+        options={({ navigation, route }) => ({
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="home"
+              size={28}
+              color={focused ? "#A5366F" : "black"}
+            />
+          ),
           header: () => null,
-        }}
+        })}
       />
       <Tabs.Screen
         name="shopping-cart"
-        options={{
-          tabBarIcon: () => (
-            <MaterialIcons
-              name="local-grocery-store"
+        options={({ navigation, route }) => ({
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="shopping-cart"
               size={28}
-              color="#A5366F"
+              color={focused ? "#A5366F" : "black"}
             />
           ),
           header: () => <Header title="Количка" />,
-        }}
+        })}
       />
       <Tabs.Screen
         name="map"
-        options={{
-          tabBarIcon: () => <Feather name="map" size={28} color="#A5366F" />,
+        options={({ navigation, route }) => ({
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="map"
+              size={28}
+              color={focused ? "#A5366F" : "black"}
+            />
+          ),
           header: () => <Header title="Карта" />,
-        }}
+        })}
       />
     </Tabs>
   );
