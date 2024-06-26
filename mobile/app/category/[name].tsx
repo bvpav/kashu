@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
-  View,
   Text,
   StyleSheet,
   Pressable,
   ScrollView,
   Dimensions,
   Image,
+  ImageBackground,
+  View,
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
+import { CartContext, CartContextType } from "@/contexts/cart-context";
+import { router } from "expo-router";
+import { getColorBasedOnIndex } from "@/constants/Colors";
+import Header from "@/components/header";
+import { useTabBarHeight } from "@/contexts/tab-bar-height";
 
 interface Product {
   id: number;
@@ -19,8 +25,15 @@ interface Product {
 }
 
 const CategoryDetails = () => {
-  const categoryName = useLocalSearchParams().name;
+  const cartContext = useContext(CartContext) as CartContextType;
+  const { tabBarHeight } = useTabBarHeight();
+  const categoryNameParam = useLocalSearchParams().name;
+  const categoryName = Array.isArray(categoryNameParam)
+    ? categoryNameParam[0]
+    : categoryNameParam;
+
   const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
   const {
     isPending,
     error,
@@ -29,24 +42,51 @@ const CategoryDetails = () => {
     queryKey: ["products-", categoryName],
     queryFn: () =>
       fetch(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/products?category=${categoryName}`
+        `${process.env.EXPO_PUBLIC_API_URL}/api/products?category=${categoryName}`,
       ).then((res) => res.json()) as Promise<Product[]>,
   });
 
-  if (isPending)
+  if (isPending || !cartContext)
     return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <ImageBackground
+        source={require("@/assets/images/background.jpg")}
+        resizeMode="cover"
+        style={{
+          position: "absolute",
+          zIndex: -1,
+          width: screenWidth,
+          height: screenHeight + tabBarHeight,
+        }}
+      >
         <Stack.Screen
           options={{
             title: `${categoryName}`,
           }}
         />
         <Text className="text-3xl my-auto text-center">Loading...</Text>
-      </View>
+      </ImageBackground>
     );
+
+  const { addToCart, cart } = cartContext;
+
+  const filteredProducts = products?.filter((product) => {
+    return !cart.some(
+      (cartProduct) => cartProduct.product_id === product.product_id,
+    );
+  });
+
   if (error)
     return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <ImageBackground
+        source={require("@/assets/images/background.jpg")}
+        resizeMode="cover"
+        style={{
+          position: "absolute",
+          zIndex: -1,
+          width: screenWidth,
+          height: screenHeight + tabBarHeight,
+        }}
+      >
         <Stack.Screen
           options={{
             title: `${categoryName}`,
@@ -55,51 +95,71 @@ const CategoryDetails = () => {
         <Text className="text-3xl my-auto text-center">
           Error: {error.message}
         </Text>
-      </View>
+      </ImageBackground>
     );
 
   return (
-    <View style={styles.container}>
-      <Stack.Screen
-        options={{
-          title: `${categoryName}`,
-        }}
-      />
-      <ScrollView
-        contentContainerStyle={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "space-evenly",
-          width: "100%",
+    <ImageBackground
+      source={require("@/assets/images/background.jpg")}
+      resizeMode="cover"
+      style={{
+        position: "absolute",
+        zIndex: -1,
+        width: screenWidth,
+        height: screenHeight + tabBarHeight,
+      }}
+    >
+      <Header title={categoryName ?? ""} />
+      <View
+        style={{
+          height: screenHeight * 0.98 - 90 + tabBarHeight,
+          marginTop: screenHeight * 0.02,
         }}
       >
-        {products.map((item: any) => (
-          <Pressable
-            key={item.product_id}
-            style={styles.categoryContainer}
-            className="w-[40%]"
-          >
-            <Image
-              source={require(`@/assets/category/4.jpg`)}
-              style={{
-                height: screenWidth * 0.35,
-                width: screenWidth * 0.35,
-                borderRadius: 8,
-              }}
-            />
-            <Text className="text-xl text-center">{item.name}</Text>
-          </Pressable>
-        ))}
-      </ScrollView>
-    </View>
+        <ScrollView
+          contentContainerStyle={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-evenly",
+            width: "100%",
+          }}
+        >
+          {filteredProducts?.map((item: any, index: number) => {
+            const { color, borderColor } = getColorBasedOnIndex(index);
+
+            return (
+              <Pressable
+                key={item.product_id}
+                style={{
+                  ...styles.categoryContainer,
+                  borderColor: borderColor,
+                  backgroundColor: color,
+                }}
+                className="w-[40%]"
+                onPress={() => {
+                  addToCart(item);
+                  router.replace("(tabs)/shopping-cart");
+                }}
+              >
+                <Image
+                  source={require(`@/assets/category/4.jpg`)}
+                  style={{
+                    height: screenWidth * 0.35,
+                    width: screenWidth * 0.35,
+                    borderRadius: 8,
+                  }}
+                />
+                <Text className="text-xl text-center">{item.name}</Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
