@@ -58,10 +58,10 @@ export default function StoreMap() {
         ]}
         polyline={{
           pointList: path.map((point) => [point.y, point.x]),
-          color: "blue",
-          weight: 3,
-          opacity: 0.5,
-          smoothFactor: 1,
+          color: "#c100dd",
+          weight: 13,
+          opacity: 0.9,
+          smoothFactor: 3,
         }}
       />
     </View>
