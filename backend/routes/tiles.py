@@ -2,7 +2,7 @@ import io
 import os
 from builtins import reversed
 from functools import cache
-from typing import Callable
+from typing import Callable, Optional
 
 import flask
 import pygame
@@ -32,6 +32,18 @@ def load_tile(tile_id: str) -> pygame.Surface:
 TILE_SIZE = 128
 
 
+def get_map_dimensions(map) -> tuple[int, int]:
+    return len(map[0]), len(map)
+
+
+def get_tile_at(store_map, x: int, y: int) -> Optional[str]:
+    width, height = get_map_dimensions(store_map)
+    if 0 <= x < width and 0 <= y < height:
+        value = store_map[height - y - 1][x]
+        return value if value != '.' else None
+    return None
+
+
 def render_map() -> io.BytesIO:
     store_map = generate_map()
 
@@ -44,6 +56,34 @@ def render_map() -> io.BytesIO:
 
     for y, row in enumerate(reversed(store_map)):
         for x, tile in enumerate(row):
+            if tile != '.':
+                # We need to draw connections
+                connection_thickness = 15
+                con_left_rect = pygame.Rect(
+                    x * TILE_SIZE, y * TILE_SIZE + TILE_SIZE // 2 - connection_thickness // 2,
+                    TILE_SIZE // 2, connection_thickness
+                )
+                con_right_rect = pygame.Rect(
+                    x * TILE_SIZE + TILE_SIZE // 2, y * TILE_SIZE + TILE_SIZE // 2 - connection_thickness // 2,
+                    TILE_SIZE // 2, connection_thickness
+                )
+                con_top_rect = pygame.Rect(
+                    x * TILE_SIZE + TILE_SIZE // 2 - connection_thickness // 2, y * TILE_SIZE,
+                    connection_thickness, TILE_SIZE // 2
+                )
+                con_bottom_rect = pygame.Rect(
+                    x * TILE_SIZE + TILE_SIZE // 2 - connection_thickness // 2, y * TILE_SIZE + TILE_SIZE // 2,
+                    connection_thickness, TILE_SIZE // 2
+                )
+                color = (0, 0, 0) if tile != 'X' else (255, 0, 0)
+                if get_tile_at(store_map, x, y - 1):
+                    pygame.draw.rect(surface, color, con_top_rect)
+                if get_tile_at(store_map, x, y + 1):
+                    pygame.draw.rect(surface, color, con_bottom_rect)
+                if get_tile_at(store_map, x - 1, y):
+                    pygame.draw.rect(surface, color, con_left_rect)
+                if get_tile_at(store_map, x + 1, y):
+                    pygame.draw.rect(surface, color, con_right_rect)
             surface.blit(load_tile(tile), (x * TILE_SIZE, y * TILE_SIZE))
 
     buffer = io.BytesIO()
