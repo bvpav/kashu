@@ -24,7 +24,7 @@ export default function TabsLayout() {
         name="index"
         options={{
           tabBarIcon: () => <AntDesign name="home" size={24} color="#A5366F" />,
-          header: () => <Header title="Home" />,
+          header: () => null,
         }}
       />
       <Tabs.Screen

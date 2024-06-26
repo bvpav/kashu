@@ -23,7 +23,7 @@ export default function IndexScreen() {
 
   return (
     <ImageBackground
-      source={require("@/assets/images/background.jpg")}
+      source={require("@/assets/images/welcome.jpg")}
       resizeMode="cover"
       style={{
         position: "absolute",
@@ -33,13 +33,7 @@ export default function IndexScreen() {
         justifyContent: "center",
         alignItems: "center",
       }}
-    >
-      <Tabs.Screen options={{ title: "Home" }} />
-
-      <View style={styles.container}>
-        <Text className="text-black">This screen is the index screen.</Text>
-      </View>
-    </ImageBackground>
+    />
   );
 }
 
