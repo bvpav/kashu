@@ -14,7 +14,8 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { CartProvider } from "@/contexts/cart-context";
 import { View, Text, StyleSheet } from "react-native";
 import { BlurView } from "expo-blur";
-
+import Header from "@/components/header";
+import { TabBarHeightProvider } from "@/contexts/tab-bar-height";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 void SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
@@ -37,39 +38,29 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <CartProvider>
-        <QueryClientProvider client={queryClient}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-            <Stack.Screen
-              name="category/index"
-              options={{
-                title: "Категории",
-                headerTransparent: true,
-                header: () => (
-                  <BlurView intensity={50} style={styles.headerContainer}>
-                    <View style={styles.wrapper}>
-                      <Text style={styles.headerTitle}>Категории</Text>
-                    </View>
-                  </BlurView>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="category/[name]"
-              options={{
-                headerTransparent: true,
-                header: () => (
-                  <BlurView intensity={50} style={styles.headerContainer}>
-                    <View style={styles.wrapper}>
-                      <Text style={styles.headerTitle}>Продукти</Text>
-                    </View>
-                  </BlurView>
-                ),
-              }}
-            />
-          </Stack>
-        </QueryClientProvider>
+        <TabBarHeightProvider>
+          <QueryClientProvider client={queryClient}>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+              <Stack.Screen
+                name="category/index"
+                options={{
+                  title: "Категории",
+                  headerTransparent: true,
+                  header: () => <Header title="Категории" />,
+                }}
+              />
+              <Stack.Screen
+                name="category/[name]"
+                options={{
+                  headerTransparent: true,
+                  header: () => null,
+                }}
+              />
+            </Stack>
+          </QueryClientProvider>
+        </TabBarHeightProvider>
       </CartProvider>
     </ThemeProvider>
   );

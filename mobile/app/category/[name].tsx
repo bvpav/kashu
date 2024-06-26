@@ -14,6 +14,8 @@ import { useQuery } from "@tanstack/react-query";
 import { CartContext, CartContextType } from "@/contexts/cart-context";
 import { router } from "expo-router";
 import { getColorBasedOnIndex } from "@/constants/Colors";
+import Header from "@/components/header";
+import { useTabBarHeight } from "@/contexts/tab-bar-height";
 
 interface Product {
   id: number;
@@ -24,7 +26,7 @@ interface Product {
 
 const CategoryDetails = () => {
   const cartContext = useContext(CartContext) as CartContextType;
-
+  const { tabBarHeight } = useTabBarHeight();
   const categoryNameParam = useLocalSearchParams().name;
   const categoryName = Array.isArray(categoryNameParam)
     ? categoryNameParam[0]
@@ -53,7 +55,7 @@ const CategoryDetails = () => {
           position: "absolute",
           zIndex: -1,
           width: screenWidth,
-          height: screenHeight,
+          height: screenHeight + tabBarHeight,
         }}
       >
         <Stack.Screen
@@ -82,7 +84,7 @@ const CategoryDetails = () => {
           position: "absolute",
           zIndex: -1,
           width: screenWidth,
-          height: screenHeight,
+          height: screenHeight + tabBarHeight,
         }}
       >
         <Stack.Screen
@@ -104,18 +106,14 @@ const CategoryDetails = () => {
         position: "absolute",
         zIndex: -1,
         width: screenWidth,
-        height: screenHeight,
+        height: screenHeight + tabBarHeight,
       }}
     >
-      <Stack.Screen
-        options={{
-          title: `${categoryName}`,
-        }}
-      />
+      <Header title={categoryName ?? ""} />
       <View
         style={{
-          height: screenHeight * 0.88,
-          marginTop: screenHeight * 0.12,
+          height: screenHeight * 0.98 - 90 + tabBarHeight,
+          marginTop: screenHeight * 0.02,
         }}
       >
         <ScrollView

@@ -12,7 +12,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { getColorBasedOnIndex } from "@/constants/Colors";
-
+import { useTabBarHeight } from "@/contexts/tab-bar-height";
 interface Category {
   id: number;
   name: string;
@@ -20,6 +20,7 @@ interface Category {
 }
 
 export default function ProductsScreen() {
+  const { tabBarHeight } = useTabBarHeight();
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
   const {
@@ -43,7 +44,7 @@ export default function ProductsScreen() {
           position: "absolute",
           zIndex: -1,
           width: screenWidth,
-          height: screenHeight,
+          height: screenHeight + tabBarHeight,
         }}
       >
         <Text className="text-3xl my-auto text-center">Loading...</Text>
@@ -58,7 +59,7 @@ export default function ProductsScreen() {
           position: "absolute",
           zIndex: -1,
           width: screenWidth,
-          height: screenHeight,
+          height: screenHeight + tabBarHeight,
         }}
       >
         <Text className="text-3xl my-auto text-center">
@@ -100,12 +101,12 @@ export default function ProductsScreen() {
         position: "absolute",
         zIndex: -1,
         width: screenWidth,
-        height: screenHeight,
+        height: screenHeight + tabBarHeight,
       }}
     >
       <View
         style={{
-          height: screenHeight * 0.88,
+          height: screenHeight * 0.88 + tabBarHeight,
           marginTop: screenHeight * 0.12,
         }}
       >

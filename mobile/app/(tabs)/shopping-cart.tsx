@@ -56,12 +56,19 @@ export default function ProductsScreen() {
           position: "absolute",
           zIndex: -1,
           width: screenWidth,
-          height: screenHeight,
+          height: screenHeight + 100,
         }}
       >
-        <Stack.Screen options={{ title: "Количка" }} />
         {cart.length === 0 && (
-          <Text className="text-center text-black text-2xl font-medium mx-auto mt-6">
+          <Text
+            style={{
+              textAlign: "center",
+              color: "black",
+              fontSize: 24,
+              fontWeight: "bold",
+              marginTop: screenHeight * 0.12,
+            }}
+          >
             Няма нищо в количката
           </Text>
         )}
