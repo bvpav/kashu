@@ -6,6 +6,8 @@ from typing import Callable
 import flask
 import pygame
 
+from backend.map_generation import generate_map
+
 tiles_bp = flask.Blueprint('tiles', __name__)
 
 
@@ -19,12 +21,16 @@ tile_texture = pygame.image.load(get_tile_url('blank_tile.png'))
 TILE_SIZE = 128
 
 
-def render_map(width, height) -> io.BytesIO:
+def render_map() -> io.BytesIO:
+    map = generate_map()
+
+    width = len(map[0])
+    height = len(map)
     surface = pygame.Surface((width * TILE_SIZE, height * TILE_SIZE))
 
-    for x in range(width):
-        for y in range(height):
-            surface.blit(tile_texture, (x * TILE_SIZE, y * TILE_SIZE), (0, 0, TILE_SIZE, TILE_SIZE))
+    for y, row in enumerate(map):
+        for x, tile in enumerate(row):
+            surface.blit(tile_texture, (x * TILE_SIZE, y * TILE_SIZE))
 
     buffer = io.BytesIO()
     pygame.image.save(surface, buffer, 'map.png')
@@ -34,5 +40,5 @@ def render_map(width, height) -> io.BytesIO:
 
 @tiles_bp.get('/api/map')
 def get_tile():
-    buffer = render_map(2, 2)
+    buffer = render_map()
     return flask.send_file(buffer, mimetype='image/png')
