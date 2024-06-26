@@ -141,6 +141,8 @@ def get_path(start, end, items, arr):
     # for step in cleaned_path:
     #     print(step)
 
+    cleaned_path = [(x[0], x[1], x in items) for x in cleaned_path]
+
     return cleaned_path
 
 

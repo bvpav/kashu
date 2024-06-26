@@ -58,6 +58,13 @@ def get_shopping_list_route():
 
     print(shortest_path)
 
-    shortest_path = [{'y': path[0], 'x': path[1]} for path in shortest_path]
+    shortest_path = [{'y': path[0], 'x': path[1],
+                      'is_collectable': path[2]} for path in shortest_path]
+
+    # set golden eggs as not collectable
+    for golden_egg in golden_eggs_pos:
+        for path in shortest_path:
+            if path['y'] == golden_egg[0] and path['x'] == golden_egg[1]:
+                path['is_collectable'] = False
 
     return jsonify(shortest_path)
