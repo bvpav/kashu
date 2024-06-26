@@ -1,6 +1,6 @@
 import { Link, Stack } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -10,15 +10,20 @@ import {
   Dimensions,
   Pressable,
   ImageBackground,
+  TextInput,
 } from "react-native";
 import { getColorBasedOnIndex } from "@/constants/Colors";
 import { useTabBarHeight } from "@/contexts/tab-bar-height";
-import Category from "@/types/categories";
+import CategoryExpanded from "@/types/categories";
+import LoadingPage from "@/components/loading";
+import ErrorPage from "@/components/error";
+import { searchProductInCategories } from "@/services/category";
 
 export default function ProductsScreen() {
   const { tabBarHeight } = useTabBarHeight();
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
+  const [searchQuery, setSearchQuery] = useState("");
   const {
     isPending,
     error,
@@ -27,41 +32,31 @@ export default function ProductsScreen() {
     queryKey: ["categories"],
     queryFn: () =>
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/categories`).then(
-        (res) => res.json() as Promise<Category[]>,
+        (res) => res.json() as Promise<CategoryExpanded[]>,
       ),
   });
 
+  const filteredCategories = useMemo(() => {
+    if (searchQuery === "" || categories === undefined) return categories;
+    return searchProductInCategories({ categories, searchQuery });
+  }, [categories, searchQuery]);
+
   if (isPending)
     return (
-      <ImageBackground
-        source={require("@/assets/images/background.jpg")}
-        resizeMode="cover"
-        style={{
-          position: "absolute",
-          zIndex: -1,
-          width: screenWidth,
-          height: screenHeight + tabBarHeight,
-        }}
-      >
-        <Text className="text-3xl my-auto text-center">Loading...</Text>
-      </ImageBackground>
+      <LoadingPage
+        screenWidth={screenWidth}
+        screenHeight={screenHeight}
+        tabBarHeight={tabBarHeight}
+      />
     );
   if (error)
     return (
-      <ImageBackground
-        source={require("@/assets/images/background.jpg")}
-        resizeMode="cover"
-        style={{
-          position: "absolute",
-          zIndex: -1,
-          width: screenWidth,
-          height: screenHeight + tabBarHeight,
-        }}
-      >
-        <Text className="text-3xl my-auto text-center">
-          Error: {error.message}
-        </Text>
-      </ImageBackground>
+      <ErrorPage
+        error={error}
+        screenWidth={screenWidth}
+        screenHeight={screenHeight}
+        tabBarHeight={tabBarHeight}
+      />
     );
 
   const styles = StyleSheet.create({
@@ -106,6 +101,21 @@ export default function ProductsScreen() {
           marginTop: screenHeight * 0.12,
         }}
       >
+        <TextInput
+          style={{
+            height: 40,
+            fontSize: 20,
+            borderColor: "#A5366F",
+            borderWidth: 2,
+            margin: 10,
+            borderRadius: 10,
+            paddingHorizontal: 10,
+            backgroundColor: "#ffffff",
+          }}
+          onChangeText={setSearchQuery}
+          value={searchQuery}
+          placeholder="Потърси продукт или категория"
+        />
         <ScrollView
           contentContainerStyle={{
             flexDirection: "column",
@@ -114,7 +124,7 @@ export default function ProductsScreen() {
             width: "90%",
           }}
         >
-          {categories.map((item, index) => {
+          {filteredCategories?.map((item, index) => {
             const { color, borderColor } = getColorBasedOnIndex(index);
             return (
               <Link href={"category/" + item.name} asChild key={item.id}>

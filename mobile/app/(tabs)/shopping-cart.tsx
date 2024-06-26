@@ -14,6 +14,7 @@ import {
 import { getColorBasedOnIndex } from "@/constants/Colors";
 import { CartContext, CartContextType } from "@/contexts/cart-context";
 import Product from "@/types/products";
+import LoadingPage from "@/components/loading";
 
 export default function ProductsScreen() {
   const cartContext = useContext(CartContext) as CartContextType;
@@ -22,20 +23,11 @@ export default function ProductsScreen() {
 
   if (!cartContext) {
     return (
-      <ImageBackground
-        source={require("@/assets/images/background.jpg")}
-        resizeMode="cover"
-        style={{
-          position: "absolute",
-          zIndex: -1,
-          width: screenWidth,
-          height: screenHeight,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text>Loading...</Text>
-      </ImageBackground>
+      <LoadingPage
+        screenWidth={screenWidth}
+        screenHeight={screenHeight}
+        tabBarHeight={0}
+      />
     );
   }
 
