@@ -142,7 +142,9 @@ const CategoryDetails = () => {
                 }}
               >
                 <Image
-                  source={require(`@/assets/category/4.jpg`)}
+                  source={{
+                    uri: `${process.env.EXPO_PUBLIC_API_URL}/assets/products/${item.id}.png`,
+                  }}
                   style={{
                     height: screenWidth * 0.35,
                     width: screenWidth * 0.35,

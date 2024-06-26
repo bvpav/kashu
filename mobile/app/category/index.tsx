@@ -139,7 +139,9 @@ export default function ProductsScreen() {
                     <Text className="text-xl">{item.description}</Text>
                   </View>
                   <Image
-                    source={require(`../../assets/category/4.jpg`)}
+                    source={{
+                      uri: `${process.env.EXPO_PUBLIC_API_URL}/assets/categories/${item.id}.jpg`,
+                    }}
                     style={{
                       height: screenWidth * 0.3,
                       width: screenWidth * 0.3,
