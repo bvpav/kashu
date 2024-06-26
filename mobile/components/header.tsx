@@ -4,13 +4,21 @@ import { BlurView } from "expo-blur";
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-export default function Header({ title }: { title: string }) {
+export default function Header({
+  title,
+  backArrow,
+}: {
+  title: string;
+  backArrow?: boolean;
+}) {
   return (
     <BlurView intensity={10} style={styles.headerContainer}>
       <View style={styles.wrapper}>
-        <Pressable onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={38} color="#A5366F" />
-        </Pressable>
+        {backArrow && (
+          <Pressable onPress={() => router.back()}>
+            <Ionicons name="arrow-back" size={38} color="#A5366F" />
+          </Pressable>
+        )}
         <View style={styles.titleContainer}>
           <Text style={styles.headerTitle}>{title}</Text>
         </View>

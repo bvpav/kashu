@@ -1,11 +1,4 @@
-import { Link, Tabs } from "expo-router";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Dimensions,
-} from "react-native";
+import { ImageBackground, Dimensions } from "react-native";
 import { useTabBarHeight } from "@/contexts/tab-bar-height";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useEffect } from "react";
@@ -36,16 +29,3 @@ export default function IndexScreen() {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-});
