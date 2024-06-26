@@ -11,26 +11,36 @@ from backend.map_generation import generate_map
 tiles_bp = flask.Blueprint('tiles', __name__)
 
 
-def get_tile_url(filename):
+def get_tile_path(filename):
     working_dir = os.path.dirname(__file__)
     return os.path.join(working_dir, '..', 'assets', 'tiles', filename)
 
 
-tile_texture = pygame.image.load(get_tile_url('blank_tile.png'))
+def get_tile_path_by_id(tile_id: str):
+    tile_path = get_tile_path(f'tile_{tile_id}.png')
+    if os.path.exists(tile_path):
+        return tile_path
+    return get_tile_path('blank_tile.png')
+
+
+@cache
+def load_tile(tile_id: str) -> pygame.Surface:
+    return pygame.image.load(get_tile_path_by_id(tile_id))
+
 
 TILE_SIZE = 128
 
 
 def render_map() -> io.BytesIO:
-    map = generate_map()
+    store_map = generate_map()
 
-    width = len(map[0])
-    height = len(map)
+    width = len(store_map[0])
+    height = len(store_map)
     surface = pygame.Surface((width * TILE_SIZE, height * TILE_SIZE))
 
-    for y, row in enumerate(map):
+    for y, row in enumerate(store_map):
         for x, tile in enumerate(row):
-            surface.blit(tile_texture, (x * TILE_SIZE, y * TILE_SIZE))
+            surface.blit(load_tile(tile), (x * TILE_SIZE, y * TILE_SIZE))
 
     buffer = io.BytesIO()
     pygame.image.save(surface, buffer, 'map.png')
