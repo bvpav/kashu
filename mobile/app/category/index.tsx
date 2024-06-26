@@ -51,7 +51,11 @@ export default function ProductsScreen() {
     );
 
   return (
-    <BackgroundImage screenHeight={screenHeight} screenWidth={screenWidth}>
+    <BackgroundImage
+      screenHeight={screenHeight}
+      screenWidth={screenWidth}
+      tabBarHeight={tabBarHeight}
+    >
       <View
         style={{
           height: screenHeight * 0.88 + tabBarHeight,

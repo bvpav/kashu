@@ -87,7 +87,11 @@ const CategoryDetails = () => {
     );
 
   return (
-    <BackgroundImage screenWidth={screenWidth} screenHeight={screenHeight}>
+    <BackgroundImage
+      screenWidth={screenWidth}
+      screenHeight={screenHeight}
+      tabBarHeight={tabBarHeight}
+    >
       <Header title={categoryName ?? ""} backArrow={true} />
       <View
         style={{

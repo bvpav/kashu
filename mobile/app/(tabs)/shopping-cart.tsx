@@ -35,7 +35,11 @@ export default function ProductsScreen() {
 
   return (
     <>
-      <BackgroundImage screenWidth={screenWidth} screenHeight={screenHeight}>
+      <BackgroundImage
+        screenWidth={screenWidth}
+        screenHeight={screenHeight}
+        tabBarHeight={40}
+      >
         {cart.length === 0 && (
           <Text
             style={{

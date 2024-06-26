@@ -5,10 +5,12 @@ export default function BackgroundImage({
   children,
   screenWidth,
   screenHeight,
+  tabBarHeight = 0,
 }: {
   children: ReactNode;
   screenWidth: number;
   screenHeight: number;
+  tabBarHeight?: number;
 }) {
   return (
     <ImageBackground
@@ -18,7 +20,7 @@ export default function BackgroundImage({
         position: "absolute",
         zIndex: -1,
         width: screenWidth,
-        height: screenHeight,
+        height: screenHeight + tabBarHeight,
       }}
     >
       {children}
