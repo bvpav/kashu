@@ -1,9 +1,8 @@
 import io
 import os
-import random
 from builtins import reversed
 from functools import cache
-from typing import Callable, Optional
+from typing import Optional
 
 import flask
 import pygame
