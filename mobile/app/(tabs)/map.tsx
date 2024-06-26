@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Button } from "react-native";
+import { Button, View } from "react-native";
 import { RNLeaflet } from "@/components/leaflet/Leaflet";
 import type { RNLeafletRef } from "@/components/leaflet/types";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,7 +8,7 @@ export default function Map() {
   const leafletRef = useRef<RNLeafletRef>(null);
 
   return (
-    <SafeAreaView style={{ backgroundColor: "gray", flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <RNLeaflet
         ref={leafletRef}
         mapLayers={[
@@ -41,6 +41,6 @@ export default function Map() {
         onPress={() => leafletRef.current?.clearMarkers()}
         title="clear markers"
       />
-    </SafeAreaView>
+    </View>
   );
 }

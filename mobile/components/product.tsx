@@ -20,10 +20,8 @@ export default function Product({
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "red",
     borderRadius: 10,
     borderWidth: 1,
-    // justifyContent: "center",
     margin: 2,
     width: "auto",
     alignItems: "center",

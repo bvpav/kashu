@@ -1,7 +1,8 @@
-import { Tabs } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Tabs } from "expo-router";
+
 export default function TabsLayout() {
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>

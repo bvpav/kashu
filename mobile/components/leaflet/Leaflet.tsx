@@ -161,6 +161,6 @@ const styles = StyleSheet.create({
   },
   flexer: {
     flex: 1,
-    backgroundColor: "green",
+    backgroundColor: "transparent",
   },
 });

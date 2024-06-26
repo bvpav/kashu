@@ -90,8 +90,6 @@
       const messageCallback = (e) => {
         const parser = JSON.parse(e.data);
 
-        alert(JSON.stringify(parser));
-
         if (parser.clearMarkers) {
           clearMarkers();
         }
