@@ -74,8 +74,7 @@ def get_hue_for_category_name(name: str) -> int:
     return sum(ord(char) for char in name) % 360
 
 
-def render_map() -> io.BytesIO:
-    store_map = generate_map()
+def render_map(store_map) -> io.BytesIO:
     products = db.session.query(Product).join(Category, Product.category_id == Category.id).all()
     location_id_to_product = {product.product_id: product for product in products}
     locations = db.session.query(Location).all()
@@ -86,8 +85,7 @@ def render_map() -> io.BytesIO:
             continue
         coords_to_category[(location.y, location.x)] = location_id_to_product[location.location_id].category.name
 
-    width = len(store_map[0])
-    height = len(store_map)
+    width, height = get_map_dimensions(store_map)
     surface = pygame.Surface((width * TILE_SIZE, height * TILE_SIZE))
 
     # Fill with #d8d8d8
@@ -158,10 +156,38 @@ def render_map() -> io.BytesIO:
 
 
 @tiles_bp.get('/api/map')
-def get_tile():
-    buffer = render_map()
-    response = flask.send_file(buffer, mimetype='image/png')
-    response.cache_control.max_age = 60  # Cache the response for 60 seconds
-    response.cache_control.stale_while_revalidate = 300  # Allow stale content for 5 minutes while revalidating
-    response.last_modified = datetime.datetime.utcnow()
-    return response
+def get_map():
+    store_map = generate_map()
+    if 'image' in flask.request.headers.get('Accept', '').lower():
+        buffer = render_map(store_map)
+        response = flask.send_file(buffer, mimetype='image/png')
+        response.cache_control.max_age = 60  # Cache the response for 60 seconds
+        response.cache_control.stale_while_revalidate = 300  # Allow stale content for 5 minutes while revalidating
+        response.last_modified = datetime.datetime.utcnow()
+        return response
+    else:
+        width, height = get_map_dimensions(store_map)
+
+        # Discover the start and end positions
+        start = None
+        end = None
+
+        for y, row in enumerate(reversed(store_map)):
+            for x, tile in enumerate(row):
+                if tile == 'E':
+                    start = (x, y)
+                elif tile == 'F':
+                    end = (x, y)
+
+        return {
+            'map': store_map,
+            'dimensions': {
+                'width': width,
+                'height': height
+            },
+            'leaflet_data': {
+                'bounds': [[-0.5, -0.5], [height + 0.5, width + 0.5]],
+                'start_position': [start[1], start[0]],
+                'end_position': [end[1], end[0]]
+            }
+        }
