@@ -114,14 +114,24 @@ def render_map() -> io.BytesIO:
 
                 # Draw connecting lines
                 color = (0, 0, 0) if tile != 'X' else (110, 0, 0)
+                has_connections = False
                 if get_tile_at(store_map, x, y - 1):
                     pygame.draw.rect(surface, color, con_top_rect)
+                    has_connections = True
                 if get_tile_at(store_map, x, y + 1):
                     pygame.draw.rect(surface, color, con_bottom_rect)
+                    has_connections = True
                 if get_tile_at(store_map, x - 1, y):
                     pygame.draw.rect(surface, color, con_left_rect)
+                    has_connections = True
                 if get_tile_at(store_map, x + 1, y):
                     pygame.draw.rect(surface, color, con_right_rect)
+                    has_connections = True
+                if has_connections:
+                    # Make corners round
+                    # The circle gives that illusion
+                    pygame.draw.circle(surface, color, (x * TILE_SIZE + TILE_SIZE // 2, y * TILE_SIZE + TILE_SIZE // 2),
+                                       connection_thickness // 2)
 
             # Draw squares for products
             if tile == 'P':
