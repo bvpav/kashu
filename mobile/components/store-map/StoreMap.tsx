@@ -43,19 +43,11 @@ export default function StoreMap() {
           },
         ]}
         bounds={map.leaflet_data.bounds}
-        markers={[
-          {
-            latLng: map.leaflet_data.start_position,
-            title: "Start",
-          },
-          {
-            latLng: map.leaflet_data.end_position,
-            title: "End",
-          },
-          {
-            latLng: [0, 3],
-          },
-        ]}
+        markers={path
+          .filter((point) => point.is_collectable)
+          .map((point) => ({
+            latLng: [point.y, point.x],
+          }))}
         polyline={{
           pointList: path.map((point) => [point.y, point.x]),
           color: "#c100dd",
