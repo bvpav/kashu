@@ -13,11 +13,7 @@ import {
 } from "react-native";
 import { getColorBasedOnIndex } from "@/constants/Colors";
 import { useTabBarHeight } from "@/contexts/tab-bar-height";
-interface Category {
-  id: number;
-  name: string;
-  description?: string;
-}
+import Category from "@/types/categories";
 
 export default function ProductsScreen() {
   const { tabBarHeight } = useTabBarHeight();
