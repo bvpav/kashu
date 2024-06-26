@@ -48,7 +48,7 @@ export default function RootLayout() {
                 options={{
                   title: "Категории",
                   headerTransparent: true,
-                  header: () => <Header title="Категории" />,
+                  header: () => <Header title="Категории" backArrow={true} />,
                 }}
               />
               <Stack.Screen

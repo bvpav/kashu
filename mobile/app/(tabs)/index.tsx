@@ -1,11 +1,4 @@
-import { Link, Tabs } from "expo-router";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Dimensions,
-} from "react-native";
+import { ImageBackground, Dimensions } from "react-native";
 import { useTabBarHeight } from "@/contexts/tab-bar-height";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useEffect } from "react";
@@ -23,7 +16,7 @@ export default function IndexScreen() {
 
   return (
     <ImageBackground
-      source={require("@/assets/images/background.jpg")}
+      source={require("@/assets/images/welcome.jpg")}
       resizeMode="cover"
       style={{
         position: "absolute",
@@ -33,25 +26,6 @@ export default function IndexScreen() {
         justifyContent: "center",
         alignItems: "center",
       }}
-    >
-      <Tabs.Screen options={{ title: "Home" }} />
-
-      <View style={styles.container}>
-        <Text className="text-black">This screen is the index screen.</Text>
-      </View>
-    </ImageBackground>
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-});

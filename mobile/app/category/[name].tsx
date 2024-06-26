@@ -97,7 +97,7 @@ const CategoryDetails = () => {
         height: screenHeight + tabBarHeight,
       }}
     >
-      <Header title={categoryName ?? ""} />
+      <Header title={categoryName ?? ""} backArrow={true} />
       <View
         style={{
           height: screenHeight * 0.98 - 90 + tabBarHeight,
