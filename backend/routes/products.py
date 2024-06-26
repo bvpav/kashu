@@ -3,18 +3,24 @@ from backend.models import Product, Category
 
 products_bp = Blueprint('products', __name__)
 
-
 @products_bp.route('/api/products/')
 def get_products():
     category_name = request.args.get('category')
+    search_query = request.args.get('search', '')
+
+    query = Product.query
+
     if category_name:
         category = Category.query.filter_by(name=category_name).first()
         if category:
-            products = Product.query.filter_by(category_id=category.id).all()
+            query = query.filter_by(category_id=category.id)
         else:
             return jsonify({'error': 'Category not found'}), 404
-    else:
-        products = Product.query.all()
+
+    if search_query:
+        query = query.filter(Product.name.ilike(f'%{search_query}%'))
+
+    products = query.all()
     return jsonify([product.to_dict() for product in products])
 
 
