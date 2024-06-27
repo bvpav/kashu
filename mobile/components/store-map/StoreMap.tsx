@@ -3,8 +3,11 @@ import { RNLeaflet } from "../leaflet/Leaflet";
 import { RNLeafletRef } from "../leaflet/types";
 import { useQuery } from "@tanstack/react-query";
 import { MapResponse } from "./types";
-import { View } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
+import Icon from "@expo/vector-icons/Ionicons";
 import useStorePath from "@/hooks/useStorePath";
+
+const PATH_OFFSET = 10;
 
 export default function StoreMap() {
   const leafletRef = useRef<RNLeafletRef>(null);
@@ -34,6 +37,15 @@ export default function StoreMap() {
     return null;
   }
 
+  const handleButtonPress = () => {
+    if (leafletRef.current) {
+      leafletRef.current.flyTo({
+        latLng: map.leaflet_data.start_position,
+        zoom: 5,
+      });
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <RNLeaflet
@@ -44,7 +56,17 @@ export default function StoreMap() {
             bounds: map.leaflet_data.bounds,
           },
         ]}
-        bounds={map.leaflet_data.bounds}
+        // bounds={map.leaflet_data.bounds}
+        bounds={[
+          [
+            map.leaflet_data.bounds[0][0] - PATH_OFFSET,
+            map.leaflet_data.bounds[0][1] - PATH_OFFSET,
+          ],
+          [
+            map.leaflet_data.bounds[1][0] + PATH_OFFSET,
+            map.leaflet_data.bounds[1][1] + PATH_OFFSET,
+          ],
+        ]}
         markers={path
           .filter((point) => point.is_collectable)
           .map((point) => ({
@@ -58,6 +80,28 @@ export default function StoreMap() {
           smoothFactor: 3,
         }}
       />
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={handleButtonPress}
+      >
+        {/* TODO: add styling */}
+        <Icon name="navigate-outline" size={30} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  floatingButton: {
+    position: "absolute",
+    bottom: 30,
+    right: 30,
+    width: 60,
+    height: 60,
+    backgroundColor: "#6200ee",
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 8,
+  },
+});
