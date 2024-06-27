@@ -1,13 +1,12 @@
 import {
-  Viro3DObject,
   ViroARScene,
   ViroARSceneNavigator,
   ViroAmbientLight,
-  ViroText,
   ViroTrackingReason,
   ViroTrackingStateConstants,
-  ViroButton,
   ViroAnimations,
+  ViroSphere,
+  ViroMaterials,
 } from "@reactvision/react-viro";
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
@@ -16,7 +15,7 @@ const SCALE_FACTOR = 0.3;
 const NON_COLLECTABLE_WAIT_TIME = 1000;
 const COLLECTABLE_WAIT_TIME = 5000;
 
-const coordinates: { is_collectable: boolean; x: number; y: number }[] = [
+const coordinates = [
   { is_collectable: false, x: 0, y: 6 },
   { is_collectable: false, x: 1, y: 7 },
   { is_collectable: true, x: 2, y: 7 },
@@ -42,23 +41,24 @@ coordinates.forEach((coord, index) => {
   });
 });
 
-const HelloWorldSceneAR = () => {
+const SceneAR = () => {
   const [text, setText] = useState("Initializing AR...");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [movementStarted, setMovementStarted] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMovementStarted(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (movementStarted) {
       moveObject(0);
     }
   }, [movementStarted]);
-
-  useEffect(() => {
-    //after 3 seconds to setMovementStarted to true
-    setTimeout(() => {
-      setMovementStarted(true);
-    }, 3000);
-  }, []);
 
   const moveObject = (index: number) => {
     if (index < coordinates.length) {
@@ -73,21 +73,19 @@ const HelloWorldSceneAR = () => {
   function onInitialized(state: any, reason: ViroTrackingReason) {
     console.log("onInitialized", state, reason);
     if (state === ViroTrackingStateConstants.TRACKING_NORMAL) {
-      setText("Follow me!");
+      setText("Have fun!");
     } else if (state === ViroTrackingStateConstants.TRACKING_UNAVAILABLE) {
     }
   }
 
   return (
     <ViroARScene onTrackingUpdated={onInitialized}>
-      <ViroText
-        text={text}
-        scale={[1, 1, 1]}
+      <ViroSphere
         position={[0, 0, -1]}
-        style={styles.helloWorldTextStyle}
+        radius={0.2}
+        materials={["sphereMaterial"]}
         animation={{ name: `moveTo${currentIndex}`, run: true, loop: false }}
       />
-
       <ViroAmbientLight color={"#aaaaaa"} />
     </ViroARScene>
   );
@@ -98,7 +96,7 @@ export default () => {
     <ViroARSceneNavigator
       autofocus={true}
       initialScene={{
-        scene: HelloWorldSceneAR,
+        scene: SceneAR,
       }}
       style={styles.f1}
     />
@@ -113,5 +111,11 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     textAlignVertical: "center",
     textAlign: "center",
+  },
+});
+
+ViroMaterials.createMaterials({
+  sphereMaterial: {
+    diffuseColor: "#a55cda",
   },
 });
