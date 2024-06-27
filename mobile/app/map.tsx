@@ -12,7 +12,7 @@ export default function TestScreen() {
         tabBarHeight={40}
       >
         <View style={{ ...styles.container, marginTop: screenHeight * 0.12 }}>
-          <Text className="text-black">Insert Map Here...</Text>
+          <Text>Insert Map Here...</Text>
         </View>
       </BackgroundImage>
     </>

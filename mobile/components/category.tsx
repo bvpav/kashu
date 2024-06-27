@@ -23,15 +23,30 @@ export default function CategoryRender({
           borderColor: borderColor,
           backgroundColor: color,
         }}
-        className="w-full"
       >
         <View
           style={{
             width: 0.54 * screenWidth,
           }}
         >
-          <Text className="text-3xl font-medium">{item.name}</Text>
-          <Text className="text-xl">{item.description}</Text>
+          <Text
+            //text-3xl font-medium
+            style={{
+              fontWeight: 500,
+              fontSize: 28,
+              lineHeight: 30,
+            }}
+          >
+            {item.name}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              lineHeight: 23,
+            }}
+          >
+            {item.description}
+          </Text>
         </View>
         <Image
           source={{
@@ -50,6 +65,7 @@ export default function CategoryRender({
 
 const styles = StyleSheet.create({
   categoryContainer: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 4,
