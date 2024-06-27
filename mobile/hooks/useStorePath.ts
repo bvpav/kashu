@@ -5,7 +5,6 @@ export default function useStorePath() {
 
   useEffect(() => {
     if (shouldShow) {
-      console.log("Showing store route");
       return;
     }
     const timeout = setTimeout(() => {

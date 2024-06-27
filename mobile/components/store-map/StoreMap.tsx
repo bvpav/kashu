@@ -37,11 +37,11 @@ export default function StoreMap() {
     return null;
   }
 
-  const handleButtonPress = () => {
+  const handleRecenter = () => {
     if (leafletRef.current) {
       leafletRef.current.flyTo({
-        latLng: map.leaflet_data.start_position,
-        zoom: 5,
+        latLng: [6, 0],
+        zoom: 7,
       });
     }
   };
@@ -80,10 +80,7 @@ export default function StoreMap() {
           smoothFactor: 3,
         }}
       />
-      <TouchableOpacity
-        style={styles.floatingButton}
-        onPress={handleButtonPress}
-      >
+      <TouchableOpacity style={styles.floatingButton} onPress={handleRecenter}>
         {/* TODO: add styling */}
         <Icon name="navigate-outline" size={30} color="#fff" />
       </TouchableOpacity>
