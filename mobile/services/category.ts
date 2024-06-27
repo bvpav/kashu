@@ -1,4 +1,6 @@
 import CategoryExpanded from "@/types/categories";
+import Product from "@/types/products";
+import { StorePath } from "@/types/shopping-list";
 export const searchProductInCategories = ({
   categories,
   searchQuery,
@@ -28,3 +30,18 @@ export const prefetchCategories = () => ({
   staleTime: 60000,
   retry: 5,
 });
+
+export const getShoppingListRoute = async (card: Product[]) => {
+  const ids = card.map((product) => product.id);
+  const res = await fetch(
+    `${process.env.EXPO_PUBLIC_API_URL}/api/shopping-list`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ids }),
+    },
+  );
+  return (await res.json()) as Promise<StorePath>;
+};
