@@ -64,6 +64,14 @@ export default function RootLayout() {
                   header: () => <Header title="Карта" backArrow={true} />,
                 }}
               />
+              <Stack.Screen
+                name="test"
+                options={{
+                  title: "Карта",
+                  headerTransparent: true,
+                  header: () => <Header title="Карта" backArrow={true} />,
+                }}
+              />
             </Stack>
           </QueryClientProvider>
         </TabBarHeightProvider>

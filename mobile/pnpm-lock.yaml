@@ -14,6 +14,9 @@ dependencies:
   '@react-navigation/native':
     specifier: ^6.0.2
     version: 6.1.17(react-native@0.74.2)(react@18.2.0)
+  '@reactvision/react-viro':
+    specifier: ^2.41.6
+    version: 2.41.6(expo@51.0.14)(react-native@0.74.2)
   '@tanstack/react-query':
     specifier: ^5.48.0
     version: 5.48.0(react@18.2.0)
@@ -1807,6 +1810,30 @@ packages:
       nullthrows: 1.1.1
     dev: false
 
+  /@expo/config-plugins@7.9.2:
+    resolution: {integrity: sha512-sRU/OAp7kJxrCUiCTUZqvPMKPdiN1oTmNfnbkG4oPdfWQTpid3jyCH7ZxJEN5SI6jrY/ZsK5B/JPgjDUhuWLBQ==}
+    dependencies:
+      '@expo/config-types': 50.0.1
+      '@expo/fingerprint': 0.6.1
+      '@expo/json-file': 8.3.3
+      '@expo/plist': 0.1.3
+      '@expo/sdk-runtime-versions': 1.0.0
+      '@react-native/normalize-color': 2.1.0
+      chalk: 4.1.2
+      debug: 4.3.5
+      find-up: 5.0.0
+      getenv: 1.0.0
+      glob: 7.1.6
+      resolve-from: 5.0.0
+      semver: 7.6.2
+      slash: 3.0.0
+      slugify: 1.6.6
+      xcode: 3.0.1
+      xml2js: 0.6.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@expo/config-plugins@8.0.5:
     resolution: {integrity: sha512-VGseKX1dYvaf2qHUDGzIQwSOJrO5fomH0gE5cKSQyi6wn+Q6rcV2Dj2E5aga+9aKNPL6FxZ0dqRFC3t2sbhaSA==}
     dependencies:
@@ -1827,6 +1854,10 @@ packages:
       xml2js: 0.6.0
     transitivePeerDependencies:
       - supports-color
+
+  /@expo/config-types@50.0.1:
+    resolution: {integrity: sha512-EZHMgzkWRB9SMHO1e9m8s+OMahf92XYTnsCFjxhSfcDrcEoSdFPyJWDJVloHZPMGhxns7Fi2+A+bEVN/hD4NKA==}
+    dev: false
 
   /@expo/config-types@51.0.1:
     resolution: {integrity: sha512-5JuzUFobFImrUgnq93LeucP44ZMxq8WMXmCtIUf3ZC3mJSwjvvHJBMO2fS/sIlmgvvQk9eq4VnX06/7tgDFMSg==}
@@ -1894,6 +1925,21 @@ packages:
       dotenv: 16.4.5
       dotenv-expand: 11.0.6
       getenv: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@expo/fingerprint@0.6.1:
+    resolution: {integrity: sha512-ggLn6unI6qowlA1FihdQwPpLn16VJulYkvYAEL50gaqVahfNEglRQMSH2giZzjD0d6xq2/EQuUdFyHaJfyJwOQ==}
+    hasBin: true
+    dependencies:
+      '@expo/spawn-async': 1.7.2
+      chalk: 4.1.2
+      debug: 4.3.5
+      find-up: 5.0.0
+      minimatch: 3.1.2
+      p-limit: 3.1.0
+      resolve-from: 5.0.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2774,6 +2820,10 @@ packages:
       - supports-color
     dev: false
 
+  /@react-native/normalize-color@2.1.0:
+    resolution: {integrity: sha512-Z1jQI2NpdFJCVgpY+8Dq/Bt3d+YUi1928Q+/CZm/oh66fzM0RUl54vvuXlPJKybH4pdCZey1eDTPaLHkMPNgWA==}
+    dev: false
+
   /@react-native/normalize-colors@0.74.84:
     resolution: {integrity: sha512-Y5W6x8cC5RuakUcTVUFNAIhUZ/tYpuqHZlRBoAuakrTwVuoNHXfQki8lj1KsYU7rW6e3VWgdEx33AfOQpdNp6A==}
     dev: false
@@ -2879,6 +2929,23 @@ packages:
     resolution: {integrity: sha512-lTM8gSFHSfkJvQkxacGM6VJtBt61ip2XO54aNfswD+KMw6eeZ4oehl7m0me3CR9hnDE4+60iAZR8sAhvCiI3NA==}
     dependencies:
       nanoid: 3.3.7
+    dev: false
+
+  /@reactvision/react-viro@2.41.6(expo@51.0.14)(react-native@0.74.2):
+    resolution: {integrity: sha512-WlL/D86on5IxfPM5yqkrb1QQHoWSDULrEpnSbOTSbZO0xCQL4fyqUk5GXtWQTgoHOXaRoGL2e1rSEt006+w9Gw==}
+    peerDependencies:
+      expo: '>=47.0.0'
+      react-native: '*'
+    peerDependenciesMeta:
+      expo:
+        optional: true
+    dependencies:
+      '@expo/config-plugins': 7.9.2
+      expo: 51.0.14(@babel/core@7.24.7)(@babel/preset-env@7.24.7)
+      react: 18.2.0
+      react-native: 0.74.2(@babel/core@7.24.7)(@babel/preset-env@7.24.7)(@types/react@18.2.79)(react@18.2.0)
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@remix-run/node@2.10.0(typescript@5.3.3):

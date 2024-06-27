@@ -8,6 +8,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "prebuild": "expo prebuild --clean -p android --no-install",
     "test": "jest --watchAll",
     "lint": "expo lint"
   },
@@ -18,6 +19,7 @@
     "@expo/vector-icons": "^14.0.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-navigation/native": "^6.0.2",
+    "@reactvision/react-viro": "^2.41.6",
     "@tanstack/react-query": "^5.48.0",
     "expo": "~51.0.14",
     "expo-blur": "^13.0.2",

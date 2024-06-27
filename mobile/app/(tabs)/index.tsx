@@ -2,6 +2,7 @@ import { ImageBackground, Dimensions } from "react-native";
 import { useTabBarHeight } from "@/contexts/tab-bar-height";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useEffect } from "react";
+import { useRouter } from "expo-router";
 
 export default function IndexScreen() {
   const screenHeight = Dimensions.get("window").height;
@@ -14,6 +15,8 @@ export default function IndexScreen() {
     setTabBarHeight(tabBarHeight);
   }, [tabBarHeight, setTabBarHeight]);
 
+  const route = useRouter();
+  route.push("/test");
   return (
     <ImageBackground
       source={require("@/assets/images/welcome.jpg")}
