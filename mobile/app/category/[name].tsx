@@ -43,6 +43,7 @@ const CategoryDetails = () => {
         `${process.env.EXPO_PUBLIC_API_URL}/api/products?category=${categoryName}`,
       ).then((res) => res.json()) as Promise<Product[]>,
   });
+
   const { addToCart, cart } = cartContext;
 
   if (!cartContext) {
