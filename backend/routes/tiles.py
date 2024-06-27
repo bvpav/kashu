@@ -193,7 +193,7 @@ def get_map():
                 'height': height
             },
             'leaflet_data': {
-                'bounds': [[-0.5, -0.5], [height + 0.5, width + 0.5]],
+                'bounds': [[-0.5, -0.5], [height - 1 + 0.5, width - 1 + 0.5]],
                 'start_position': [start[1], start[0]],
                 'end_position': [end[1], end[0]]
             }
