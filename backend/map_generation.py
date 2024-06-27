@@ -1,4 +1,5 @@
 from backend.models import Location
+import time
 
 
 def generate_map():
@@ -7,7 +8,11 @@ def generate_map():
 
     map = [['.' for _ in range(width)] for _ in range(height)]
 
+    start_time = time.time()
     locations = Location.query.all()
+
+    print("Time taken to query LOCATIONS!!!!: ", time.time() - start_time)
+
     for location in locations:
         x = location.x
         y = location.y
@@ -40,6 +45,16 @@ def get_exit():
     for location in locations:
         if location.location_id == 'EX':
             return (location.y, location.x)
+
+
+def get_checkouts():
+    # locations = Location.query.all()
+    # checkouts = []
+    # for location in locations:
+    #     if location.location_id.startswith('CA') or location.location_id.startswith('S'):
+    #         checkouts.append((location.y, location.x))
+
+    return [(18, 5), (14, 3)]
 
 
 if __name__ == '__main__':

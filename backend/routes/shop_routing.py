@@ -51,7 +51,12 @@ def a_star(start, goal, grid, just_collected=False):
             neighbor = (current[0] + direction[0], current[1] + direction[1])
             if is_valid_move(neighbor[0], neighbor[1], grid, first_move_after_collect):
                 # Skip if the neighbor is the goal and the current is the start
-                if neighbor == goal and current == start:
+                if start == (12, 11):
+                    print("YOYOYOYOOY: ", current, goal,
+                          start, grid[current[0]][current[1]], neighbor)
+                if (grid[neighbor[0]][neighbor[1]] == '1' and current == start) or (grid[neighbor[0]][neighbor[1]] == '1' and grid[current[0]][current[1]] != '.'):
+                    print("NEIGHBOR: ", neighbor, current,
+                          goal, grid[current[0]][current[1]])
                     continue
                 tentative_g_score = g_score[current] + 1
                 if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
@@ -69,14 +74,46 @@ def a_star(start, goal, grid, just_collected=False):
 def collect_items(start, items, grid):
     path = []
     current_position = start
-    items = sorted(items, key=lambda item: heuristic(start, item))
+    items = list(sorted(items, key=lambda item: heuristic(start, item)))
+
+    collected_items = []
+
     for item in items:
+        if item in collected_items:
+            continue
+
+        path_segment = None
+
+        print(grid[current_position[0]][current_position[1]])
+
+        # if grid[current_position[0]][current_position[1]] == '#':
+        #     grid[current_position[0]][current_position[1]] = '1'
+        #     path_segment = a_star(current_position, item,
+        #                           grid, just_collected=bool(path))
+        #     grid[current_position[0]][current_position[1]] = '#'
+        # else:
         path_segment = a_star(current_position, item,
                               grid, just_collected=bool(path))
 
+        print("PATH SEGMENT: ", path_segment)
+        # fill arr with path values
+
+        for p in path_segment:
+            if p in items or grid[p[0]][p[1]] == '1':
+                #         grid[p[0]][p[1]] = '#'
+                collected_items.append(p)
+                print("COLLECTED: ", p)
+                print(grid[p[0]][p[1]])
+
+        arr = []
+        for a in path_segment:
+            arr.append(grid[a[0]][a[1]])
+
+        print("ARR: ", arr)
+
         if path_segment:
             # Exclude the last position to avoid repetition
-            path.extend(path_segment[:-1])
+            path.extend(path_segment)
             path.append(item)  # Collect the item
             current_position = item
         else:
