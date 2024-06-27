@@ -1,8 +1,4 @@
-<!-- Author: Patrick Abrahamsson -->
-<!-- https://leafletjs.com/reference.html#event -->
-
 <!doctype html>
-
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -143,7 +139,7 @@
 
         // Sets GeoJSON
         if (parser?.geoJson) {
-          L.geoJSON(parser?.geoJson).addTo(map);
+          L.geoJSON(parser?.geoJson, { renderer: L.canvas() }).addTo(map);
         }
 
         // Sets map tiles
@@ -159,7 +155,10 @@
         }
 
         if (parser?.polyline) {
-          L.polyline(parser?.polyline.pointList, parser?.polyline).addTo(map);
+          L.polyline(parser?.polyline.pointList, {
+            ...parser?.polyline,
+            renderer: L.canvas(),
+          }).addTo(map);
         }
       };
       // HACK: The message fires differently on iOS and Android - iOS receives
