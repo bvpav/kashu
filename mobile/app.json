@@ -13,13 +13,20 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos",
+        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos",
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to use your camera",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to use your microphone"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.grocerypathfinderexpo"
     },
     "web": {
       "bundler": "metro",
@@ -32,7 +39,11 @@
         "@reactvision/react-viro",
         {
           "android": {
-            "xRmode": ["GVR", "AR", "OVR_MOBILE"]
+            "xRmode": [
+              "GVR",
+              "AR",
+              "OVR_MOBILE"
+            ]
           }
         }
       ]
