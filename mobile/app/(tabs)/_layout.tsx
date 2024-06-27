@@ -1,8 +1,22 @@
 import { Tabs } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import Header from "@/components/header";
+import { prefetchCategories } from "@/services/category";
+import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function TabsLayout() {
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    console.log("prefetching categories");
+    const prefetch = async () => {
+      const config = prefetchCategories();
+      await queryClient.prefetchQuery(config);
+    };
+
+    prefetch();
+  }, [queryClient]);
+
   return (
     <Tabs
       screenOptions={{
