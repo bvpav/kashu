@@ -1,8 +1,22 @@
 import { Tabs } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import Header from "@/components/header";
+import { prefetchCategories } from "@/services/category";
+import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function TabsLayout() {
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    console.log("prefetching categories");
+    const prefetch = async () => {
+      const config = prefetchCategories();
+      await queryClient.prefetchQuery(config);
+    };
+
+    prefetch();
+  }, [queryClient]);
+
   return (
     <Tabs
       screenOptions={{
@@ -23,8 +37,9 @@ export default function TabsLayout() {
     >
       <Tabs.Screen
         name="index"
+        //@ts-ignore
         options={({ navigation, route }) => ({
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused }: { focused: boolean }) => (
             <Feather
               name="home"
               size={28}
@@ -36,8 +51,9 @@ export default function TabsLayout() {
       />
       <Tabs.Screen
         name="shopping-cart"
+        //@ts-ignore
         options={({ navigation, route }) => ({
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused }: { focused: boolean }) => (
             <Feather
               name="shopping-cart"
               size={28}
@@ -45,19 +61,6 @@ export default function TabsLayout() {
             />
           ),
           header: () => <Header title="Количка" />,
-        })}
-      />
-      <Tabs.Screen
-        name="map"
-        options={({ navigation, route }) => ({
-          tabBarIcon: ({ focused }) => (
-            <Feather
-              name="map"
-              size={28}
-              color={focused ? "#A5366F" : "black"}
-            />
-          ),
-          header: () => <Header title="Карта" />,
         })}
       />
     </Tabs>

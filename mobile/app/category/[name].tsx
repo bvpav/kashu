@@ -67,7 +67,7 @@ const CategoryDetails = () => {
     );
   }, [filteredProducts, searchQuery]);
 
-  if (isPending)
+  if (products === undefined)
     return (
       <LoadingPage
         screenWidth={screenWidth}

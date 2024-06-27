@@ -1,4 +1,3 @@
-import { Link, Stack } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 import { View, ScrollView, Dimensions, TextInput } from "react-native";
@@ -32,7 +31,7 @@ export default function ProductsScreen() {
     return searchProductInCategories({ categories, searchQuery });
   }, [categories, searchQuery]);
 
-  if (isPending)
+  if (categories === undefined)
     return (
       <LoadingPage
         screenWidth={screenWidth}

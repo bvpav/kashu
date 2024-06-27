@@ -1,5 +1,4 @@
 import CategoryExpanded from "@/types/categories";
-
 export const searchProductInCategories = ({
   categories,
   searchQuery,
@@ -19,3 +18,13 @@ export const searchProductInCategories = ({
     return isCategoryMatch || isProductMatch;
   });
 };
+
+export const prefetchCategories = () => ({
+  queryKey: ["categories"],
+  queryFn: () =>
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/categories`).then(
+      (res) => res.json() as Promise<CategoryExpanded[]>,
+    ),
+  staleTime: 60000,
+  retry: 5,
+});
