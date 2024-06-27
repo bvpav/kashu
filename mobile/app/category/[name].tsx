@@ -32,19 +32,18 @@ const CategoryDetails = () => {
 
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
-  // const {
-  //   isPending,
-  //   error,
-  //   data: products,
-  // } = useQuery({
-  //   queryKey: ["products-", categoryName],
-  //   queryFn: () =>
-  //     fetch(
-  //       `${process.env.EXPO_PUBLIC_API_URL}/api/products?category=${categoryName}`,
-  //     ).then((res) => res.json()) as Promise<Product[]>,
-  // });
+  const {
+    isPending,
+    error,
+    data: products,
+  } = useQuery({
+    queryKey: ["products-", categoryName],
+    queryFn: () =>
+      fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/api/products?category=${categoryName}`,
+      ).then((res) => res.json()) as Promise<Product[]>,
+  });
 
-  const products = [];
   const { addToCart, cart } = cartContext;
 
   if (!cartContext) {
@@ -77,15 +76,15 @@ const CategoryDetails = () => {
       />
     );
 
-  // if (error)
-  //   return (
-  //     <ErrorPage
-  //       error={error}
-  //       screenWidth={screenWidth}
-  //       screenHeight={screenHeight}
-  //       tabBarHeight={tabBarHeight}
-  //     />
-  //   );
+  if (error)
+    return (
+      <ErrorPage
+        error={error}
+        screenWidth={screenWidth}
+        screenHeight={screenHeight}
+        tabBarHeight={tabBarHeight}
+      />
+    );
 
   return (
     <BackgroundImage

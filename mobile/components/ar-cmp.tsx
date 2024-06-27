@@ -12,27 +12,29 @@ import {
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 
-const SCALE_FACTOR = 0.1;
+const SCALE_FACTOR = 0.3;
+const NON_COLLECTABLE_WAIT_TIME = 1000;
+const COLLECTABLE_WAIT_TIME = 5000;
 
-const coordinates: [number, number][] = [
-  [0, 0],
-  [1, 1],
-  [2, 1],
-  [3, 2],
-  [4, 1],
-  [5, 2],
-  [5, 3],
-  [4, 4],
-  [4, 5],
-  [5, 5],
-].map((coord) => [coord[0] * SCALE_FACTOR, coord[1] * SCALE_FACTOR]);
+const coordinates: { is_collectable: boolean; x: number; y: number }[] = [
+  { is_collectable: false, x: 0, y: 6 },
+  { is_collectable: false, x: 1, y: 7 },
+  { is_collectable: true, x: 2, y: 7 },
+  { is_collectable: false, x: 3, y: 7 },
+  { is_collectable: false, x: 4, y: 7 },
+  { is_collectable: false, x: 5, y: 7 },
+  { is_collectable: true, x: 6, y: 7 },
+  { is_collectable: false, x: 7, y: 7 },
+  { is_collectable: false, x: 8, y: 7 },
+  { is_collectable: false, x: 9, y: 7 },
+];
 
-coordinates.forEach((_, index) => {
+coordinates.forEach((coord, index) => {
   ViroAnimations.registerAnimations({
     [`moveTo${index}`]: {
       properties: {
-        positionX: coordinates[index][0],
-        positionZ: coordinates[index][1],
+        positionX: coord.x * SCALE_FACTOR,
+        positionZ: coord.y * SCALE_FACTOR,
       },
       duration: 1000,
       easing: "Linear",
@@ -40,7 +42,7 @@ coordinates.forEach((_, index) => {
   });
 });
 
-const ARcomponent = () => {
+const HelloWorldSceneAR = () => {
   const [text, setText] = useState("Initializing AR...");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [movementStarted, setMovementStarted] = useState(false);
@@ -51,59 +53,42 @@ const ARcomponent = () => {
     }
   }, [movementStarted]);
 
+  useEffect(() => {
+    //after 3 seconds to setMovementStarted to true
+    setTimeout(() => {
+      setMovementStarted(true);
+    }, 3000);
+  }, []);
+
   const moveObject = (index: number) => {
     if (index < coordinates.length) {
       setCurrentIndex(index);
-      setTimeout(() => moveObject(index + 1), 1000);
+      const waitTime = coordinates[index].is_collectable
+        ? COLLECTABLE_WAIT_TIME
+        : NON_COLLECTABLE_WAIT_TIME;
+      setTimeout(() => moveObject(index + 1), waitTime);
     }
   };
 
   function onInitialized(state: any, reason: ViroTrackingReason) {
     console.log("onInitialized", state, reason);
     if (state === ViroTrackingStateConstants.TRACKING_NORMAL) {
-      setText("Hello World!");
+      setText("Follow me!");
     } else if (state === ViroTrackingStateConstants.TRACKING_UNAVAILABLE) {
-      // Handle tracking unavailable
     }
-  }
-
-  function startMovement() {
-    setMovementStarted(true);
   }
 
   return (
     <ViroARScene onTrackingUpdated={onInitialized}>
       <ViroText
         text={text}
-        scale={[0.5, 0.5, 0.5]}
+        scale={[1, 1, 1]}
         position={[0, 0, -1]}
         style={styles.helloWorldTextStyle}
-      />
-
-      <ViroAmbientLight color={"#aaaaaa"} />
-
-      <Viro3DObject
-        source={{
-          uri: "https://github.com/bvpav/grocery-pathfinder/raw/iva/working-ar-viro/viro-ar/res/kashu/kashew.glb",
-        }}
-        position={[
-          coordinates[currentIndex][0],
-          0,
-          coordinates[currentIndex][1],
-        ]}
-        scale={[0.1, 0.1, 0.1]}
-        type="GLB"
-        dragType="FixedDistance"
-        onDrag={() => {}}
         animation={{ name: `moveTo${currentIndex}`, run: true, loop: false }}
       />
 
-      <ViroButton
-        source={require("./res/button/button.png")}
-        position={[0, -1, -2]}
-        scale={[0.4, 0.4, 0.4]}
-        onClick={startMovement}
-      />
+      <ViroAmbientLight color={"#aaaaaa"} />
     </ViroARScene>
   );
 };
@@ -113,7 +98,7 @@ export default () => {
     <ViroARSceneNavigator
       autofocus={true}
       initialScene={{
-        scene: ARcomponent,
+        scene: HelloWorldSceneAR,
       }}
       style={styles.f1}
     />

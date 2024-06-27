@@ -6,15 +6,15 @@ import { Tabs } from "expo-router";
 import { useEffect } from "react";
 
 export default function TabsLayout() {
-  // const queryClient = useQueryClient();
-  // useEffect(() => {
-  //   const prefetch = async () => {
-  //     const config = prefetchCategories();
-  //     await queryClient.prefetchQuery(config);
-  //   };
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    const prefetch = async () => {
+      const config = prefetchCategories();
+      await queryClient.prefetchQuery(config);
+    };
 
-  //   prefetch();
-  // }, [queryClient]);
+    prefetch();
+  }, [queryClient]);
 
   return (
     <Tabs
