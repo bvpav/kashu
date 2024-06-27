@@ -133,7 +133,6 @@ const CategoryDetails = () => {
                   borderColor: borderColor,
                   backgroundColor: color,
                 }}
-                className="w-[40%]"
                 onPress={() => {
                   addToCart(item);
                   router.replace("(tabs)/shopping-cart");
@@ -149,7 +148,14 @@ const CategoryDetails = () => {
                     borderRadius: 8,
                   }}
                 />
-                <Text className="text-xl text-center">{item.name}</Text>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    lineHeight: 28,
+                  }}
+                >
+                  {item.name}
+                </Text>
               </Pressable>
             );
           })}
@@ -166,6 +172,7 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     alignItems: "center",
+    width: "40%",
     margin: 5,
     borderWidth: 1,
     maxWidth: "40%",

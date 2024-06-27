@@ -30,16 +30,34 @@ export default function RenderProduct({
         borderColor: borderColor,
         height: screenWidth * 0.35,
       }}
-      className="w-full"
     >
       <View
         style={{
           width: 0.54 * screenWidth,
         }}
       >
-        <Text className="text-3xl font-medium">{item.name}</Text>
-        <Text className="text-lg">Катеогория: Нехранителни стоки</Text>
-        <Text className="text-md">
+        <Text
+          style={{
+            fontWeight: 500,
+            fontSize: 30,
+            lineHeight: 36,
+          }}
+        >
+          {item.name}
+        </Text>
+        <Text
+          style={{
+            fontSize: 20,
+            lineHeight: 28,
+          }}
+        >
+          Катеогория: Нехранителни стоки
+        </Text>
+        <Text
+          style={{
+            fontSize: 20,
+          }}
+        >
           Сериен номер на продукта: {item.product_id}
         </Text>
       </View>
@@ -95,6 +113,7 @@ function DeleteButton({ product_id }: { product_id: string }) {
 
 const styles = StyleSheet.create({
   categoryContainer: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 4,
