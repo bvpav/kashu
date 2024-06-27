@@ -56,7 +56,6 @@ export default function StoreMap() {
             bounds: map.leaflet_data.bounds,
           },
         ]}
-        // bounds={map.leaflet_data.bounds}
         bounds={[
           [
             map.leaflet_data.bounds[0][0] - PATH_OFFSET,
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
     right: 30,
     width: 60,
     height: 60,
-    backgroundColor: "#6200ee",
+    backgroundColor: "#A5366F",
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
