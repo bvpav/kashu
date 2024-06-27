@@ -1,21 +1,21 @@
 import { Link } from "expo-router";
-import { CartContext, CartContextType } from "@/contexts/cart-context";
 
-import React, { useContext } from "react";
+import BackgroundImage from "@/components/background-image";
+import LoadingPage from "@/components/loading";
+import RenderProduct from "@/components/product";
+import useCartContext from "@/hooks/useCartContext";
+import React from "react";
 import {
-  View,
-  Text,
-  ScrollView,
   Dimensions,
   Pressable,
+  ScrollView,
+  Text,
   TouchableOpacity,
+  View,
 } from "react-native";
-import LoadingPage from "@/components/loading";
-import BackgroundImage from "@/components/background-image";
-import RenderProduct from "@/components/product";
 
 export default function ProductsScreen() {
-  const cartContext = useContext(CartContext) as CartContextType;
+  const cartContext = useCartContext();
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
 

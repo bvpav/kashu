@@ -1,28 +1,27 @@
-import React, { useContext, useMemo } from "react";
+import BackgroundImage from "@/components/background-image";
+import ErrorPage from "@/components/error";
+import Header from "@/components/header";
+import LoadingPage from "@/components/loading";
+import { getColorBasedOnIndex } from "@/constants/Colors";
+import { useTabBarHeight } from "@/contexts/tab-bar-height";
+import useCartContext from "@/hooks/useCartContext";
+import Product from "@/types/products";
+import { useQuery } from "@tanstack/react-query";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useMemo } from "react";
 import {
-  Text,
-  StyleSheet,
-  Pressable,
-  ScrollView,
   Dimensions,
   Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
   View,
 } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import { useQuery } from "@tanstack/react-query";
-import { CartContext, CartContextType } from "@/contexts/cart-context";
-import { router } from "expo-router";
-import { getColorBasedOnIndex } from "@/constants/Colors";
-import Header from "@/components/header";
-import { useTabBarHeight } from "@/contexts/tab-bar-height";
-import Product from "@/types/products";
-import LoadingPage from "@/components/loading";
-import ErrorPage from "@/components/error";
-import { TextInput } from "react-native";
-import BackgroundImage from "@/components/background-image";
 
 const CategoryDetails = () => {
-  const cartContext = useContext(CartContext) as CartContextType;
+  const cartContext = useCartContext();
   const { tabBarHeight } = useTabBarHeight();
   const categoryNameParam = useLocalSearchParams().name;
   const [searchQuery, setSearchQuery] = React.useState("");

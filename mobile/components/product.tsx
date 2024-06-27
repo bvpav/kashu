@@ -1,15 +1,14 @@
-import Product from "@/types/products";
-import { useContext } from "react";
 import { getColorBasedOnIndex } from "@/constants/Colors";
-import { CartContext, CartContextType } from "@/contexts/cart-context";
+import Product from "@/types/products";
 
+import useCartContext from "@/hooks/useCartContext";
 import {
-  View,
-  Text,
   Image,
   Pressable,
   StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 export default function RenderProduct({
   index,
@@ -77,7 +76,7 @@ export default function RenderProduct({
 }
 
 function DeleteButton({ product_id }: { product_id: string }) {
-  const cartContext = useContext(CartContext) as CartContextType;
+  const cartContext = useCartContext();
   const { removeFromCart } = cartContext;
 
   return (
