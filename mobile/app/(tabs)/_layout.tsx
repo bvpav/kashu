@@ -8,7 +8,6 @@ import { useQueryClient } from "@tanstack/react-query";
 export default function TabsLayout() {
   const queryClient = useQueryClient();
   useEffect(() => {
-    console.log("prefetching categories");
     const prefetch = async () => {
       const config = prefetchCategories();
       await queryClient.prefetchQuery(config);
