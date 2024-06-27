@@ -16,7 +16,7 @@ import Header from "@/components/header";
 import { TabBarHeightProvider } from "@/contexts/tab-bar-height";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 void SplashScreen.preventAutoHideAsync();
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -34,40 +34,40 @@ export default function RootLayout() {
   }
 
   return (
+    // <QueryClientProvider client={queryClient}>
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <CartProvider>
         <TabBarHeightProvider>
-          <QueryClientProvider client={queryClient}>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-              <Stack.Screen
-                name="category/index"
-                options={{
-                  title: "Категории",
-                  headerTransparent: true,
-                  header: () => <Header title="Категории" backArrow={true} />,
-                }}
-              />
-              <Stack.Screen
-                name="category/[name]"
-                options={{
-                  headerTransparent: true,
-                  header: () => null,
-                }}
-              />
-              <Stack.Screen
-                name="map"
-                options={{
-                  title: "Карта",
-                  headerTransparent: true,
-                  header: () => <Header title="Карта" backArrow={true} />,
-                }}
-              />
-            </Stack>
-          </QueryClientProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+            <Stack.Screen
+              name="category/index"
+              options={{
+                title: "Категории",
+                headerTransparent: true,
+                header: () => <Header title="Категории" backArrow={true} />,
+              }}
+            />
+            <Stack.Screen
+              name="category/[name]"
+              options={{
+                headerTransparent: true,
+                header: () => null,
+              }}
+            />
+            <Stack.Screen
+              name="map"
+              options={{
+                title: "Карта",
+                headerTransparent: true,
+                header: () => <Header title="Карта" backArrow={true} />,
+              }}
+            />
+          </Stack>
         </TabBarHeightProvider>
       </CartProvider>
     </ThemeProvider>
+    // </QueryClientProvider>
   );
 }
