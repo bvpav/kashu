@@ -1,4 +1,6 @@
 from flask import Flask
+
+from .routes.tiles import tiles_bp
 from .models import db
 
 from .routes.products import products_bp
@@ -20,6 +22,7 @@ with app.app_context():
 app.register_blueprint(products_bp)
 app.register_blueprint(categories_bp)
 app.register_blueprint(shopping_list_bp)
+app.register_blueprint(tiles_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)

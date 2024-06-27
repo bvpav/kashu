@@ -1,9 +1,9 @@
-import { Tabs } from "expo-router";
-import Feather from "@expo/vector-icons/Feather";
 import Header from "@/components/header";
 import { prefetchCategories } from "@/services/category";
-import { useEffect } from "react";
+import Feather from "@expo/vector-icons/Feather";
 import { useQueryClient } from "@tanstack/react-query";
+import { Tabs } from "expo-router";
+import { useEffect } from "react";
 
 export default function TabsLayout() {
   const queryClient = useQueryClient();

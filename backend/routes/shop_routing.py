@@ -1,55 +1,26 @@
 import heapq
 
-# Define the grid and its size
-arr = [['.' for i in range(10)] for j in range(10)]
 
-arr[2][2] = 'X'
-arr[3][2] = 'X'
-arr[4][2] = 'X'
-arr[5][5] = 'X'
-arr[5][6] = 'X'
-arr[5][7] = 'X'
-
-arr[2][3] = '1'
-arr[4][4] = '1'
-arr[3][3] = 'A'
-arr[4][3] = 'A'
-arr[3][4] = 'A'
-arr[2][4] = '1'
-
-arr[2][6] = 'B'
-arr[3][6] = 'B'
-arr[4][6] = 'B'
-arr[2][7] = 'B'
-arr[3][7] = 'B'
-arr[4][7] = '1'
-
-# Helper function to print the grid
-
-
-def print_grid(arr):
+def print_grid(map):
+    """Helper function to print the grid"""
     for i in range(9, -1, -1):
         for j in range(10):
-            print(arr[i][j], end=' ')
+            print(map[i][j], end=' ')
         print()
-
-# Helper function to check if a move is valid
 
 
 def is_valid_move(x, y, grid, just_collected=False):
+    """Helper function to check if a move is valid"""
     if 0 <= x < len(grid) and 0 <= y < len(grid[0]) and grid[x][y] != 'X' and grid[x][y] != 'B' and grid[x][y] != 'A':
         if just_collected and grid[x][y] == '1':
             return False
         return True
     return False
 
-# Heuristic function for A* (Manhattan Distance)
-
 
 def heuristic(a, b):
+    """Heuristic function for A* (Manhattan Distance)"""
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
-
-# A* Pathfinding Algorithm
 
 
 def is_adjacent(a, b):
@@ -57,6 +28,7 @@ def is_adjacent(a, b):
 
 
 def a_star(start, goal, grid, just_collected=False):
+    """A* Pathfinding Algorithm"""
     open_set = []
     heapq.heappush(open_set, (0, start))
     came_from = {}
@@ -144,8 +116,3 @@ def get_path(start, end, items, arr):
     cleaned_path = [(x[0], x[1], x in items) for x in cleaned_path]
 
     return cleaned_path
-
-
-if __name__ == "__main__":
-    print(get_path(start, end, items, arr))
-    print_grid(arr)
