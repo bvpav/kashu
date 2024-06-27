@@ -61,19 +61,6 @@ export default function TabsLayout() {
           header: () => <Header title="Количка" />,
         })}
       />
-      <Tabs.Screen
-        name="map"
-        options={({ navigation, route }) => ({
-          tabBarIcon: ({ focused }) => (
-            <Feather
-              name="map"
-              size={28}
-              color={focused ? "#A5366F" : "black"}
-            />
-          ),
-          header: () => <Header title="Карта" />,
-        })}
-      />
     </Tabs>
   );
 }

@@ -12,8 +12,6 @@ import "../styles/global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { CartProvider } from "@/contexts/cart-context";
-import { View, Text, StyleSheet } from "react-native";
-import { BlurView } from "expo-blur";
 import Header from "@/components/header";
 import { TabBarHeightProvider } from "@/contexts/tab-bar-height";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -58,6 +56,14 @@ export default function RootLayout() {
                   header: () => null,
                 }}
               />
+              <Stack.Screen
+                name="map"
+                options={{
+                  title: "Карта",
+                  headerTransparent: true,
+                  header: () => <Header title="Карта" backArrow={true} />,
+                }}
+              />
             </Stack>
           </QueryClientProvider>
         </TabBarHeightProvider>
@@ -65,33 +71,3 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    height: 90,
-    width: "100%",
-    zIndex: 1000,
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "center",
-  },
-  wrapper: {
-    width: "100%",
-    borderWidth: 4,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderColor: "#A5366F",
-  },
-  headerTitle: {
-    textAlign: "center",
-    color: "#A5366F",
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  iconLeft: {
-    // Styles for left icon
-  },
-  iconRight: {
-    // Styles for right icon
-  },
-});
