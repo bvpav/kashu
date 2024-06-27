@@ -74,7 +74,8 @@ def get_hue_for_category_name(name: str) -> int:
     return sum(ord(char) for char in name) % 360
 
 
-def render_map(store_map) -> io.BytesIO:
+@cache
+def _render_map(store_map) -> bytes:
     products = db.session.query(Product).join(Category, Product.category_id == Category.id).all()
     location_id_to_product = {product.product_id: product for product in products}
     locations = db.session.query(Location).all()
@@ -152,7 +153,13 @@ def render_map(store_map) -> io.BytesIO:
     buffer = io.BytesIO()
     pygame.image.save(surface, buffer, 'map.png')
     buffer.seek(0)
-    return buffer
+    return buffer.getvalue()
+
+
+def render_map(store_map) -> io.BytesIO:
+    frozen_map = tuple(tuple(row) for row in store_map)
+    buffer = _render_map(frozen_map)
+    return io.BytesIO(buffer)
 
 
 @tiles_bp.get('/api/map')
