@@ -37,8 +37,9 @@ export default function TabsLayout() {
     >
       <Tabs.Screen
         name="index"
+        //@ts-ignore
         options={({ navigation, route }) => ({
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused }: { focused: boolean }) => (
             <Feather
               name="home"
               size={28}
@@ -50,8 +51,9 @@ export default function TabsLayout() {
       />
       <Tabs.Screen
         name="shopping-cart"
+        //@ts-ignore
         options={({ navigation, route }) => ({
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ focused }: { focused: boolean }) => (
             <Feather
               name="shopping-cart"
               size={28}
