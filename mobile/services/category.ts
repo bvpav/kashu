@@ -45,3 +45,10 @@ export const getShoppingListRoute = async (card: Product[]) => {
   );
   return (await res.json()) as Promise<StorePath>;
 };
+
+export const prefetchShoppingListRoute = (card: Product[]) => ({
+  queryKey: ["path", card],
+  queryFn: () => getShoppingListRoute(card),
+  staleTime: 60000,
+  retry: 5,
+});
