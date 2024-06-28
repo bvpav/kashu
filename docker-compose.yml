@@ -4,6 +4,8 @@ services:
   backend:
     build:
       context: ./backend
+    volumes:
+      - ./instance:/opt/app/instance
 
   nginx:
     image: nginx:latest
