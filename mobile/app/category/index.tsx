@@ -23,7 +23,7 @@ export default function ProductsScreen() {
   } = useQuery({
     queryKey: ["categories"],
     queryFn: () =>
-      fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/categories`).then(
+      fetch(`${process.env.EXPO_PUBLIC_API_URL}/api/categories/`).then(
         (res) => res.json() as Promise<CategoryExpanded[]>,
       ),
   });

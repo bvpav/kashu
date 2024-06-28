@@ -1,4 +1,5 @@
 import remToPx from "@/constants/fontSize";
+import useStorePath from "@/hooks/useStorePath";
 import {
   ViroARScene,
   ViroARSceneNavigator,
@@ -17,33 +18,8 @@ const SCALE_FACTOR = 0.3;
 const NON_COLLECTABLE_WAIT_TIME = 1000;
 const COLLECTABLE_WAIT_TIME = 5000;
 
-const coordinates = [
-  { is_collectable: false, x: 0, y: 6 },
-  { is_collectable: false, x: 1, y: 7 },
-  { is_collectable: true, x: 2, y: 7 },
-  { is_collectable: false, x: 3, y: 7 },
-  { is_collectable: false, x: 4, y: 7 },
-  { is_collectable: false, x: 5, y: 7 },
-  { is_collectable: true, x: 6, y: 7 },
-  { is_collectable: false, x: 7, y: 7 },
-  { is_collectable: false, x: 8, y: 7 },
-  { is_collectable: false, x: 9, y: 7 },
-];
-
-coordinates.forEach((coord, index) => {
-  ViroAnimations.registerAnimations({
-    [`moveTo${index}`]: {
-      properties: {
-        positionX: coord.x * SCALE_FACTOR,
-        positionZ: coord.y * SCALE_FACTOR,
-      },
-      duration: 1000,
-      easing: "Linear",
-    },
-  });
-});
-
 const SceneAR = () => {
+  const coordinates = useStorePath() || [];
   const [text, setText] = useState("Initializing AR...");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [movementStarted, setMovementStarted] = useState(false);
@@ -61,6 +37,21 @@ const SceneAR = () => {
       moveObject(0);
     }
   }, [movementStarted]);
+
+  useEffect(() => {
+    coordinates.forEach((coord, index) => {
+      ViroAnimations.registerAnimations({
+        [`moveTo${index}`]: {
+          properties: {
+            positionX: coord.x * SCALE_FACTOR,
+            positionZ: coord.y * SCALE_FACTOR,
+          },
+          duration: 1000,
+          easing: "Linear",
+        },
+      });
+    });
+  }, [coordinates]);
 
   const moveObject = (index: number) => {
     if (index < coordinates.length) {
@@ -106,7 +97,7 @@ export default () => {
 };
 
 const styles = StyleSheet.create({
-  f1: { flex: 1 },
+  f1: { flex: 1, borderRadius: 10 },
   helloWorldTextStyle: {
     fontFamily: "Arial",
     fontSize: remToPx(2),

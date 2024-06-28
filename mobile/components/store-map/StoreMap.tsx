@@ -47,7 +47,7 @@ export default function StoreMap() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, borderRadius: 10 }}>
       <RNLeaflet
         ref={leafletRef}
         imageOverlays={[

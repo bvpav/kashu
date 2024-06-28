@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
+import ARComponent from "@/components/ar-cmp";
 export default function TestScreen() {
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
@@ -25,6 +25,7 @@ export default function TestScreen() {
       >
         <View style={{ ...styles.container, marginTop: screenHeight * 0.12 }}>
           {!isARView && <StoreMap />}
+          {isARView && <ARComponent />}
           <TouchableOpacity
             style={styles.buttonContainer}
             onPress={() => setIsARView((prev) => !prev)}

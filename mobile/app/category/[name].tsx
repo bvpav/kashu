@@ -42,7 +42,7 @@ const CategoryDetails = () => {
     queryKey: ["products-", categoryName],
     queryFn: () =>
       fetch(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/products?category=${categoryName}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/api/products/?category=${categoryName}`,
       ).then((res) => res.json()) as Promise<Product[]>,
   });
 
