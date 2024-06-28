@@ -60,3 +60,9 @@ To build the mobile application located in the `mobile/` directory, you need to 
    ```
 
    <b>The device must have enabled USB Tethering, File transfer and Developer mode.</b>
+
+## Script images folder
+
+The script-images folder contains all of the scripts, used to webscrape the images, resize them and fix their names and location.
+
+The `bing_scraper.py` file is a GitHub open-source script, that installs the images from Bing. You can find it at [GitHub Repository](https://github.com/ultralytics/google-images-download).
