@@ -16,7 +16,7 @@ export default function IndexScreen() {
 
   return (
     <ImageBackground
-      source={require("@/assets/images/welcome.jpg")}
+      source={require("@/assets/images/welcome.png")}
       resizeMode="cover"
       style={{
         position: "absolute",
