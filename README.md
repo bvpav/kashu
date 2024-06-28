@@ -38,7 +38,12 @@ To build the mobile application located in the `mobile/` directory, you need to 
    $ cd mobile/
    ```
 
-3. **Install Dependencies**
+3. **Setup the .env file**
+   Create a .env file and define the necessary envarionment variables:
+   ```
+   EXPO_PUBLIC_API_URL=http://exampleUrl:PORT
+   ```
+4. **Install Dependencies**
 
    Use pnpm to install the necessary dependencies:
 
@@ -46,40 +51,12 @@ To build the mobile application located in the `mobile/` directory, you need to 
    $ pnpm install
    ```
 
-4. **Build the Application**
-
-   Once the dependencies are installed, build the mobile application:
-
-   ```console
-   $ pnpm run build
-   ```
-
 5. **Run the Application**
 
-   To run the mobile application, use the following command:
+   To run the mobile application on your android device, use the following command:
 
    ```console
-   $ pnpm start
+   $ pnpm run android
    ```
 
-   This command starts the development server, and you can view the application on your emulator or connected mobile device.
-
-6. **Additional Commands**
-
-   - **Linting**: To lint the code and ensure it adheres to coding standards, run:
-
-     ```console
-     $ pnpm run lint
-     ```
-
-   - **Testing**: To run tests, execute:
-
-     ```console
-     $ pnpm run test
-     ```
-
-   - **Cleaning**: To clean the build artifacts, use:
-
-     ```console
-     $ pnpm run clean
-     ```
+   <b>The device must have enabled USB Tethering, File transfer and Developer mode.</b>
