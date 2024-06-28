@@ -70,6 +70,7 @@ export default function StoreMap() {
           .filter((point) => point.is_collectable)
           .map((point) => ({
             latLng: [point.y, point.x],
+            title: point.product_name,
           }))}
         polyline={{
           pointList: path.map((point) => [point.y, point.x]),
