@@ -34,10 +34,10 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <CartProvider>
-          <TabBarHeightProvider>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <CartProvider>
+        <TabBarHeightProvider>
+          <QueryClientProvider client={queryClient}>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />
@@ -65,9 +65,9 @@ export default function RootLayout() {
                 }}
               />
             </Stack>
-          </TabBarHeightProvider>
-        </CartProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
+          </QueryClientProvider>
+        </TabBarHeightProvider>
+      </CartProvider>
+    </ThemeProvider>
   );
 }

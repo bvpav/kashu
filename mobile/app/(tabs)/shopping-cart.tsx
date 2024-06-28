@@ -79,7 +79,7 @@ export default function ProductsScreen() {
           >
             <ScrollView
               contentContainerStyle={{
-                marginHorizontal: "auto",
+                marginHorizontal: screenWidth * 0.05,
                 width: "90%",
               }}
             >

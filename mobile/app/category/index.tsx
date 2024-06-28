@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, ScrollView, Dimensions, TextInput } from "react-native";
 import { useTabBarHeight } from "@/contexts/tab-bar-height";
 import CategoryExpanded from "@/types/categories";
@@ -15,6 +15,7 @@ export default function ProductsScreen() {
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
   const [searchQuery, setSearchQuery] = useState("");
+
   const {
     isPending,
     error,
@@ -81,9 +82,8 @@ export default function ProductsScreen() {
           contentContainerStyle={{
             flexDirection: "column",
             flexWrap: "wrap",
-            marginHorizontal: "auto",
+            marginHorizontal: 0.05 * screenWidth,
             width: "90%",
-            backgroundColor: "black",
           }}
         >
           {filteredCategories?.map((item, index) => (
