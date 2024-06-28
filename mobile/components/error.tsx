@@ -1,5 +1,7 @@
 import { Text } from "react-native";
 import BackgroundImage from "./background-image";
+import { rem } from "nativewind";
+import remToPx from "@/constants/fontSize";
 
 export default function ErrorPage({
   error,
@@ -16,7 +18,7 @@ export default function ErrorPage({
     <BackgroundImage screenWidth={screenWidth} screenHeight={screenHeight}>
       <Text
         style={{
-          fontSize: 32,
+          fontSize: remToPx(2),
           textAlign: "center",
           marginVertical: "auto",
         }}

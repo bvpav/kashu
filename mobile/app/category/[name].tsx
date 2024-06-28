@@ -19,6 +19,8 @@ import {
   TextInput,
   View,
 } from "react-native";
+import remToPx from "@/constants/fontSize";
+import { rem } from "nativewind";
 
 const CategoryDetails = () => {
   const cartContext = useCartContext();
@@ -102,7 +104,7 @@ const CategoryDetails = () => {
         <TextInput
           style={{
             height: 40,
-            fontSize: 20,
+            fontSize: remToPx(1.25),
             borderColor: "#A5366F",
             borderWidth: 2,
             margin: 10,
@@ -150,8 +152,8 @@ const CategoryDetails = () => {
                 />
                 <Text
                   style={{
-                    fontSize: 20,
-                    lineHeight: 28,
+                    fontSize: remToPx(1.5),
+                    lineHeight: remToPx(1.5),
                   }}
                 >
                   {item.name}
@@ -167,7 +169,7 @@ const CategoryDetails = () => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 24,
+    fontSize: remToPx(1.6),
     fontWeight: "bold",
   },
   categoryContainer: {

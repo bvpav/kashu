@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-
+import remToPx from "@/constants/fontSize";
 import BackgroundImage from "@/components/background-image";
 import LoadingPage from "@/components/loading";
 import RenderProduct from "@/components/product";
@@ -43,7 +43,7 @@ export default function ProductsScreen() {
             style={{
               textAlign: "center",
               color: "black",
-              fontSize: 24,
+              fontSize: remToPx(1.8),
               fontWeight: "bold",
               marginTop: screenHeight * 0.12,
             }}
@@ -124,7 +124,7 @@ function AddButton() {
           style={{
             fontWeight: "bold",
             color: "#A5366F",
-            fontSize: 32,
+            fontSize: remToPx(2),
           }}
         >
           +
@@ -152,7 +152,7 @@ function GetRouteButton() {
       >
         <Text
           style={{
-            fontSize: 20,
+            fontSize: remToPx(1.3),
             textAlign: "center",
             fontWeight: "800",
             color: "#A5366F",

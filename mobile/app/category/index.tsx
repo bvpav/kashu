@@ -8,6 +8,7 @@ import ErrorPage from "@/components/error";
 import { searchProductInCategories } from "@/services/category";
 import CategoryRender from "@/components/category";
 import BackgroundImage from "@/components/background-image";
+import remToPx from "@/constants/fontSize";
 
 export default function ProductsScreen() {
   const { tabBarHeight } = useTabBarHeight();
@@ -64,7 +65,7 @@ export default function ProductsScreen() {
         <TextInput
           style={{
             height: 40,
-            fontSize: 20,
+            fontSize: remToPx(1.25),
             borderColor: "#A5366F",
             borderWidth: 2,
             margin: 10,
@@ -82,6 +83,7 @@ export default function ProductsScreen() {
             flexWrap: "wrap",
             marginHorizontal: "auto",
             width: "90%",
+            backgroundColor: "black",
           }}
         >
           {filteredCategories?.map((item, index) => (

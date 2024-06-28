@@ -1,5 +1,6 @@
 import { Text } from "react-native";
 import BackgroundImage from "./background-image";
+import remToPx from "@/constants/fontSize";
 
 export default function LoadingPage({
   screenWidth,
@@ -14,9 +15,9 @@ export default function LoadingPage({
     <BackgroundImage screenWidth={screenWidth} screenHeight={screenHeight}>
       <Text
         style={{
-          fontSize: 32,
+          fontSize: remToPx(2),
           textAlign: "center",
-          marginVertical: "auto",
+          marginVertical: screenHeight * 0.4,
         }}
       >
         Loading...

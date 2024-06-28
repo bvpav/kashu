@@ -4,7 +4,7 @@ import Feather from "@expo/vector-icons/Feather";
 import { useQueryClient } from "@tanstack/react-query";
 import { Tabs } from "expo-router";
 import { useEffect } from "react";
-
+import { rem } from 'react-native-rem';
 export default function TabsLayout() {
   const queryClient = useQueryClient();
   useEffect(() => {

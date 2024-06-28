@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "expo-router";
 import { Pressable, Text, View, Image, StyleSheet } from "react-native";
 import { getColorBasedOnIndex } from "@/constants/Colors";
-
+import remToPx from "@/constants/fontSize";
 export default function CategoryRender({
   item,
   index,
@@ -32,17 +32,17 @@ export default function CategoryRender({
           <Text
             //text-3xl font-medium
             style={{
-              fontWeight: 500,
-              fontSize: 28,
-              lineHeight: 30,
+              fontWeight: "bold",
+              fontSize: remToPx(1.5),
+              lineHeight: remToPx(1.5),
             }}
           >
             {item.name}
           </Text>
           <Text
             style={{
-              fontSize: 16,
-              lineHeight: 23,
+              fontSize: remToPx(1.12),
+              lineHeight: remToPx(1.5),
             }}
           >
             {item.description}

@@ -1,3 +1,4 @@
+import remToPx from "@/constants/fontSize";
 import {
   ViroARScene,
   ViroARSceneNavigator,
@@ -8,6 +9,7 @@ import {
   ViroSphere,
   ViroMaterials,
 } from "@reactvision/react-viro";
+import { rem } from "nativewind";
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
   f1: { flex: 1 },
   helloWorldTextStyle: {
     fontFamily: "Arial",
-    fontSize: 30,
+    fontSize: remToPx(2),
     color: "#ffffff",
     textAlignVertical: "center",
     textAlign: "center",

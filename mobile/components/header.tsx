@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { BlurView } from "expo-blur";
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import remToPx from "@/constants/fontSize";
 
 export default function Header({
   title,
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: "#A5366F",
-    fontSize: 30,
+    fontSize: remToPx(2),
     fontWeight: "bold",
   },
   placeholder: {

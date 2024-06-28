@@ -1,5 +1,6 @@
 import BackgroundImage from "@/components/background-image";
 import StoreMap from "@/components/store-map/StoreMap";
+import remToPx from "@/constants/fontSize";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React from "react";
 import {
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 24,
+    fontSize: remToPx(1.4),
     lineHeight: 24,
     fontWeight: "bold",
   },

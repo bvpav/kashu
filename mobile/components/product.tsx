@@ -1,6 +1,6 @@
 import { getColorBasedOnIndex } from "@/constants/Colors";
 import Product from "@/types/products";
-
+import remToPx from "@/constants/fontSize";
 import useCartContext from "@/hooks/useCartContext";
 import {
   Image,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
 export default function RenderProduct({
   index,
   item,
@@ -37,24 +38,24 @@ export default function RenderProduct({
       >
         <Text
           style={{
-            fontWeight: 500,
-            fontSize: 30,
-            lineHeight: 36,
+            fontWeight: "bold",
+            fontSize: remToPx(1.5),
+            lineHeight: remToPx(1.5),
           }}
         >
           {item.name}
         </Text>
         <Text
           style={{
-            fontSize: 20,
-            lineHeight: 28,
+            fontSize: remToPx(1.12),
+            lineHeight: remToPx(1.5),
           }}
         >
           Катеогория: Нехранителни стоки
         </Text>
         <Text
           style={{
-            fontSize: 20,
+            fontSize: remToPx(1.12),
           }}
         >
           Сериен номер на продукта: {item.product_id}
@@ -101,7 +102,7 @@ function DeleteButton({ product_id }: { product_id: string }) {
         style={{
           fontWeight: "bold",
           color: "#A5366F",
-          fontSize: 16,
+          fontSize: remToPx(1.1),
         }}
       >
         X
